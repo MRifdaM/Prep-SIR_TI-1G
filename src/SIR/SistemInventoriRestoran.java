@@ -1,5 +1,6 @@
 package SIR;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class SistemInventoriRestoran {
     public static void main(String[] args) {
@@ -21,7 +22,9 @@ public class SistemInventoriRestoran {
         double stokBahan[] = new double[namaBahan[0].length];
         double stokAkhir[] = new double[17];
         Boolean inventori = true, login = true, mainMenu = true, dataMaster = true, dataB = false, dataMK = true, menu1 = false, menu2 = false, dataR = true, dataU = true, laporan = true;
-        int pilih = 0, n = 0;
+        int pilih = 0, n = 0, hapusIndex = -1;
+        String a = "";
+        LocalDate tanggalMasuk = LocalDate.now();
     
     while(inventori){
         login = true;
@@ -111,8 +114,9 @@ public class SistemInventoriRestoran {
                         System.out.println("====================================");
                         System.out.println("| 1. Masukkan nama bahan           |");
                         System.out.println("| 2. Masukkan data bahan           |");
-                        System.out.println("| 3. Lihat data bahan              |");
-                        System.out.println("| 4. Keluar                        |");
+                        System.out.println("| 3. Hapus data bahan              |");
+                        System.out.println("| 4. Lihat data bahan              |");
+                        System.out.println("| 5. Keluar                        |");
                         System.out.println("====================================");
                         System.out.print(" Masuk ke menu : ");
                         pilih = sc.nextInt();
@@ -147,6 +151,7 @@ public class SistemInventoriRestoran {
                                 dataB = true;
                                 break;
                             case 2:
+                            System.out.println(namaBahan[0].length + " " + n);
                                 System.out.println("====================================");
                                 System.out.println("|       MASUKKAN DATA BAHAN        |");
                                 System.out.println("====================================");
@@ -156,6 +161,7 @@ public class SistemInventoriRestoran {
                                 System.out.print(" Masuk ke menu : ");
                                 pilih = sc.nextInt();
                                 if (pilih == 1){
+                                    tanggalMasuk = LocalDate.now();
                                     for (int i = 0; i < namaBahan.length - 1; i++) {
                                         for (int j = 0; j < namaBahan[i].length; j++) {
                                             System.out.print(namaBahan[i][j] + " : ");
@@ -164,8 +170,9 @@ public class SistemInventoriRestoran {
                                     }
                                 } else if (pilih == 2){
                                     if (dataB){
+                                        tanggalMasuk = LocalDate.now();
                                         for (int i = 0; i < namaBahan.length - 1; i++) {
-                                            for (int j = 17; j < namaBahan[i].length; j++) {
+                                            for (int j = namaBahan[i].length-1; j < namaBahan[i].length; j++) {
                                                 System.out.print(namaBahan[i][j] + " : ");
                                                 stokBahan[j] = sc.nextDouble();
                                             }
@@ -177,7 +184,45 @@ public class SistemInventoriRestoran {
                                     }
                                 }
                                 break;
+
                             case 3:
+                            System.out.println("==========================================");
+                            System.out.println("|            HAPUS DATA BAHAN            |");
+                            System.out.println("==========================================");
+                            sc.nextLine();
+                            System.out.print(" Masukkan nama bahan yang ingin dihapus : ");
+                            a = sc.nextLine();
+
+                            for (int i = 0; i < namaBahan[0].length; i++) {
+                                    if (namaBahan[0][i].equalsIgnoreCase(a)){
+                                        hapusIndex = i;
+                                        break;
+                                    }
+                            }
+
+                            String namaBahanHapus[][] = new String[namaBahan.length][namaBahan[0].length - 1];
+                            double stokBahanHapus[] = new double[namaBahan[0].length - 1]; 
+                            int k = 0;
+                            if (hapusIndex != -1){
+
+                                    for (int j = 0; j < namaBahan[0].length; j++){
+                                        if (j != hapusIndex){
+                                            if (k < namaBahanHapus[0].length){
+                                                namaBahanHapus[0][k] = namaBahan[0][j];
+                                                namaBahanHapus[1][k] = namaBahan[1][j];
+                                                stokBahanHapus[k] = stokBahan[j];
+                                                k++;
+                                            }
+                                        }
+                                    }
+                            }
+                            
+                            namaBahan = namaBahanHapus;
+                            stokBahan = stokBahanHapus;
+                            break;
+
+
+                            case 4:
                                 System.out.println("=============LIHAT DATA=============");
                                 for (int i = 0; i < namaBahan.length - 1; i++) {
                                     for (int j = 0; j < namaBahan[i].length; j++){
@@ -187,7 +232,7 @@ public class SistemInventoriRestoran {
                                     break;
 
 
-                                case 4:
+                                case 5:
                                 dataMaster = false;
                                 break;
                                 
@@ -213,6 +258,7 @@ public class SistemInventoriRestoran {
                             System.out.println("====================================");
                             System.out.println("|             DATA MASUK           |");
                             System.out.println("====================================");
+                            tanggalMasuk = LocalDate.now();
                             for (int i=0; i < namaBahan.length-1; i++) {
                                 for (int j = 0; j < namaBahan[i].length; j++) {
                                 System.out.print(" Masukkan jumlah " + namaBahan[i][j] + " yang masuk : ");
@@ -239,6 +285,7 @@ public class SistemInventoriRestoran {
                             System.out.println("====================================");
                             System.out.println("|            DATA KELUAR           |");
                             System.out.println("====================================");
+                            tanggalMasuk = LocalDate.now();
                             for (int i=1; i < stokMasukKeluar.length; i++) {
                                 for (int j = 0; j < namaBahan[i].length; j++) {
                                 System.out.print(" Masukkan jumlah " + namaBahan[0][j] + " yang keluar : ");
@@ -335,6 +382,7 @@ public class SistemInventoriRestoran {
                         System.out.println("===============================");
                         System.out.println("|  MASUKKAN BAHAN YANG RUSAK  |");
                         System.out.println("===============================");
+                        tanggalMasuk = LocalDate.now();
                         for(int i = 0;i<namaBahan.length-1;i++){
                             for (int j = 0; j < namaBahan[i].length; j++){
                                 System.out.print("Masukkan jumlah " + namaBahan[i][j] + " yang rusak : ");
@@ -403,6 +451,7 @@ public class SistemInventoriRestoran {
                             System.out.println("-----------------------------");
                             System.out.println("|    LAPORAN BAHAN MASUK    |");
                             System.out.println("-----------------------------");
+                            System.out.println("Tanggal Masuk: " + tanggalMasuk);
                             for (int i = 0; i < stokMasukKeluar[0].length; i++) {
                                 System.out.println("Bahan " + namaBahan[0][i] + " Yang Masuk Hari Ini : "
                                         + stokMasukKeluar[0][i] + " " + namaBahan[1][i]);
@@ -421,6 +470,7 @@ public class SistemInventoriRestoran {
                             System.out.println("-----------------------------");
                             System.out.println("|    LAPORAN BAHAN KELUAR   |");
                             System.out.println("-----------------------------");
+                            System.out.println("Tanggal Masuk: " + tanggalMasuk);
                             for (int i = 0; i < stokMasukKeluar[0].length; i++) {
                                 System.out.println("Bahan " + namaBahan[0][i] + " Yang Keluar Hari Ini : "
                                         + stokMasukKeluar[1][i] + " " + namaBahan[1][i]);
@@ -439,6 +489,7 @@ public class SistemInventoriRestoran {
                             System.out.println("-----------------------------");
                             System.out.println("|    LAPORAN BAHAN RUSAK    |");
                             System.out.println("-----------------------------");
+                            System.out.println("Tanggal Masuk: " + tanggalMasuk);
                             for (int i = 0; i < stokRusak.length; i++) {
                                 System.out.println(
                                         "Bahan " + namaBahan[0][i] + " Yang Rusak Hari Ini : " + stokRusak[i] + " "
@@ -458,6 +509,7 @@ public class SistemInventoriRestoran {
                             System.out.println("-----------------------------");
                             System.out.println("|    LAPORAN STOCK BAHAN    |");
                             System.out.println("-----------------------------");
+                            System.out.println("Tanggal Masuk: " + tanggalMasuk);
                             for (int i = 0; i < stokAkhir.length; i++) {
                                 stokAkhir[i] = stokBahan[i] + stokMasukKeluar[0][i] - stokMasukKeluar[1][i] - stokRusak[i];
                                 System.out.println("Laporan Stok Bahan Hari ini " + namaBahan[0][i] + " : " + stokAkhir[i] + " "
