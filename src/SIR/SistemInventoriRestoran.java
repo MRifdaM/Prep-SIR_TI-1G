@@ -20,7 +20,7 @@ public class SistemInventoriRestoran {
         double stokRusak[] = new double[namaBahan[0].length];
         double stokBahan[] = new double[namaBahan[0].length];
         double stokAkhir[] = new double[17];
-        Boolean inventori = true, login = true, mainMenu = true, dataMaster = true, dataMK = true, menu1 = false, menu2 = false, dataR = true, dataU = true, laporan = true;
+        Boolean inventori = true, login = true, mainMenu = true, dataMaster = true, dataB = false, dataMK = true, menu1 = false, menu2 = false, dataR = true, dataU = true, laporan = true;
         int pilih = 0, n = 0;
     
     while(inventori){
@@ -144,15 +144,36 @@ public class SistemInventoriRestoran {
                                 stokBahan = stokBahanBaru;
                                 stokMasukKeluar = new double[2][namaBahan[0].length];
                                 stokRusak = new double[namaBahan[0].length];
+                                dataB = true;
                                 break;
                             case 2:
                                 System.out.println("====================================");
                                 System.out.println("|       MASUKKAN DATA BAHAN        |");
                                 System.out.println("====================================");
-                                for (int i = 0; i < namaBahan.length - 1; i++) {
-                                    for (int j = 0; j < namaBahan[i].length; j++) {
-                                        System.out.print(namaBahan[i][j] + " : ");
-                                        stokBahan[j] = sc.nextDouble();
+                                System.out.println("| 1. Masukkan Semua Data Bahan     |");
+                                System.out.println("| 2. Masukkan Data Bahan Baru      |");
+                                System.out.println("====================================");
+                                System.out.print(" Masuk ke menu : ");
+                                pilih = sc.nextInt();
+                                if (pilih == 1){
+                                    for (int i = 0; i < namaBahan.length - 1; i++) {
+                                        for (int j = 0; j < namaBahan[i].length; j++) {
+                                            System.out.print(namaBahan[i][j] + " : ");
+                                            stokBahan[j] = sc.nextDouble();
+                                        }
+                                    }
+                                } else if (pilih == 2){
+                                    if (dataB){
+                                        for (int i = 0; i < namaBahan.length - 1; i++) {
+                                            for (int j = 17; j < namaBahan[i].length; j++) {
+                                                System.out.print(namaBahan[i][j] + " : ");
+                                                stokBahan[j] = sc.nextDouble();
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("=============================================");
+                                        System.out.println("|  Masukkan Nama Bahan Baru Terlebih Dahulu |");
+                                        System.out.println("=============================================");
                                     }
                                 }
                                 break;
