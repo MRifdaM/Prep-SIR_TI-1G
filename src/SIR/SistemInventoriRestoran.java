@@ -21,7 +21,7 @@ public class SistemInventoriRestoran {
         double stokRusak[] = new double[namaBahan[0].length];
         double stokBahan[] = new double[namaBahan[0].length];
         double stokAkhir[] = new double[17];
-        Boolean inventori = true, login = true, mainMenu = true, dataMaster = true, dataB = false, dataMK = true, menu1 = false, menu2 = false, dataR = true, dataU = true, laporan = true;
+        Boolean inventori = true, login = true, mainMenu = true, dataB = false, menu1 = false, menu2 = false;
         int pilih = 0, n = 0, hapusIndex = -1;
         String a = "";
         
@@ -91,11 +91,8 @@ public class SistemInventoriRestoran {
             }
         }
         while (mainMenu) {
-            dataMaster = true;
-            dataMK = true;
-            dataR = true;
-            dataU = true;
-            laporan = true;
+            boolean dataMaster = true,  dataMK = true, dataR = true, dataU = true, laporan = true;
+    
             System.out.println("==============================\n" + "|          MAIN MENU         |\n" + "==============================");
             System.out.println("1. Data Master");
             System.out.println("2. Data Bahan Masuk dan Keluar");
@@ -164,8 +161,10 @@ public class SistemInventoriRestoran {
                                 if (pilih == 1){
                                     for (int i = 0; i < namaBahan.length - 1; i++) {
                                         for (int j = 0; j < namaBahan[i].length; j++) {
+                                            if (stokBahan[j] == 0.0){
                                             System.out.print(namaBahan[i][j] + " : ");
                                             stokBahan[j] = sc.nextDouble();
+                                            }
                                         }
                                     }
                                 } else if (pilih == 2){
@@ -196,12 +195,7 @@ public class SistemInventoriRestoran {
                                     if (namaBahan[0][i].equalsIgnoreCase(a)){
                                         hapusIndex = i;
                                         break;
-                                    } else {
-                                        System.out.println("==========================================");
-                                        System.out.println("|       NAMA BAHAN TIDAK TERDAFTAR       |");
-                                        System.out.println("==========================================");
-                                        break;
-                                    }
+                                    } 
                             }
 
                             String namaBahanHapus[][] = new String[namaBahan.length][namaBahan[0].length - 1];
@@ -412,11 +406,13 @@ public class SistemInventoriRestoran {
 
                 case 4:
                 while(dataU){
+                boolean perbaruiD = true;
                 System.out.println("=====================================");
                 System.out.println("|            UPDATE DATA            |");
                 System.out.println("=====================================");
                 System.out.println(" 1. Update Data ke Data Master       ");
-                System.out.println(" 2. Keluar                           ");
+                System.out.println(" 2. Perbarui Data");
+                System.out.println(" 3. Keluar                           ");
                 System.out.println("====================================="); 
                 System.out.print("Pilih Menu : ");                   
                 pilih = sc.nextInt();
@@ -426,7 +422,91 @@ public class SistemInventoriRestoran {
                     stokBahan[i] = stokAkhir[i];
                     }
                     System.out.println("Data telah diupdate");
-                } else {
+                } else if (pilih == 2){
+                    String nama = " ";
+                    while (perbaruiD) {
+                    System.out.println("=====================================");
+                    System.out.println("|           PERBARUI DATA           |");
+                    System.out.println("=====================================");
+                    System.out.println(" 1. Perbarui Data Master");
+                    System.out.println(" 2. Perbarui Data Masuk");
+                    System.out.println(" 3. Perbarui Data Keluar");
+                    System.out.println(" 4. Perbarui Data Rusak");
+                    System.out.println(" 5. Keluar");
+                    System.out.println("=====================================");
+                    System.out.print("Pilih Menu : ");
+                    pilih = sc.nextInt();
+
+                    switch (pilih) {
+                        case 1:
+                        System.out.println("=====================================");
+                        System.out.println("|        PERBARUI DATA MASTER       |");
+                        System.out.println("=====================================");
+                        sc.nextLine();
+                        System.out.print("Masukkan nama bahan yang ingin diperbarui : ");
+                        nama = sc.nextLine();
+                        for (int i = 0; i < namaBahan[0].length; i++){
+                            if (nama.equalsIgnoreCase(namaBahan[0][i])){
+                                System.out.print("Masukkan data bahan : ");
+                                stokBahan[i] = sc.nextDouble();
+                                break;
+                            }
+                        }
+                        break;
+
+                        case 2:
+                        System.out.println("=====================================");
+                        System.out.println("|        PERBARUI DATA MASUK       |");
+                        System.out.println("=====================================");
+                        sc.nextLine();
+                        System.out.print("Masukkan nama bahan yang ingin diperbarui : ");
+                        nama = sc.nextLine();
+                        for (int i = 0; i < namaBahan[0].length; i++){
+                            if (nama.equalsIgnoreCase(namaBahan[0][i])){
+                                System.out.print("Masukkan data bahan : ");
+                                stokMasukKeluar[0][i] = sc.nextDouble();
+                                break;
+                            }
+                        }
+                        break;
+
+                        case 3:
+                        System.out.println("=====================================");
+                        System.out.println("|        PERBARUI DATA KELUAR       |");
+                        System.out.println("=====================================");
+                        sc.nextLine();
+                        System.out.print("Masukkan nama bahan yang ingin diperbarui : ");
+                        nama = sc.nextLine();
+                        for (int i = 0; i < namaBahan[0].length; i++){
+                            if (nama.equalsIgnoreCase(namaBahan[0][i])){
+                                System.out.print("Masukkan data bahan : ");
+                                stokMasukKeluar[1][i] = sc.nextDouble();
+                                break;
+                            }
+                        }
+                        break;
+
+                        case 4:
+                        System.out.println("=====================================");
+                        System.out.println("|        PERBARUI DATA RUSAK        |");
+                        System.out.println("=====================================");
+                        sc.nextLine();
+                        System.out.println("Masukkan nama bahan yang ingin diperbarui : ");
+                        nama = sc.nextLine();
+                        for (int i = 0; i < namaBahan[0].length; i++){
+                            if (nama.equalsIgnoreCase(namaBahan[0][i])){
+                                System.out.println("Masukkan data bahan : ");
+                                stokRusak[i] = sc.nextDouble();
+                                break;
+                            }
+                        }
+                        break;
+                        case 5:
+                        perbaruiD = false;
+                        break;
+                    }
+                }
+                }else {
                     dataU = false;
                     break;
                 }
