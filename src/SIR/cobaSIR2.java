@@ -14,6 +14,7 @@ public class cobaSIR2 {
     };
     static double stokBahan[] = { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
     static double laporanPerTanggal[][] = new double[3][namaBahan[0].length];
+    static double stokPerTanggal[][] = new double[3][namaBahan[0].length];
     static double bahanMasuk = 0.0, bahanKeluar = 0.0, bahanRusak = 0.0;
     static int hapusIndex = -1;
     static LocalDate tanggal2 = null;
@@ -35,11 +36,11 @@ public class cobaSIR2 {
                 { "Reza", "Rifda", "Vemas" },
                 { "1234", "5678", "9101" },
         };
-        double stokPerTanggal[][] = new double[3][stokBahan.length];
         String[][] inputan = new String[1][2];
         Boolean inventori = true, login = true, mainMenu = true;
-        int pilih = 0,n = 0, z = 0;
+        int pilih = 0,n = 0, z = 0, o = 0;
         LocalDate[] laporanTgl = new LocalDate[0];
+        LocalDate tanggal1 = null;
         String a = "";
 
         while (inventori) {
@@ -108,10 +109,10 @@ public class cobaSIR2 {
                     System.out.println("=============================");
                 }
             }
-
+            tanggal2 = tanggal1;
             System.out.print("Masukkan Tanggal (format YYYY-MM-DD): ");
             String tanggalString = sc.next();
-            LocalDate tanggal1 = LocalDate.parse(tanggalString);
+            tanggal1 = LocalDate.parse(tanggalString);
 
             if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
                 double laporanPerTanggal2[][] = new double[laporanPerTanggal.length][laporanPerTanggal[0].length];
@@ -120,14 +121,14 @@ public class cobaSIR2 {
                 stokPerTanggal = stokPerTanggalHapus;
                 n+=1;
                 laporanTgl = new LocalDate[n];
-                for (int i = 0; i < laporanTgl.length; i++){
-                    laporanTgl[i] = tanggal1;
-                }
                 if (tanggal2 == null){
-                    int cumaTes = 1;
-                } else if (tanggal1.isEqual(tanggal2)){
+                    laporanTgl[o] = tanggal1;
+                } else if (!tanggal1.isEqual(tanggal2)){
+                    o += 1;
                     laporanPerTanggal = new double[3+3][namaBahan[0].length];
                     laporanPerTanggal = laporanPerTanggal2;
+                    laporanTgl[o-1] = tanggal2;
+                    laporanTgl[o] = tanggal1;
                 }
             }
             while (mainMenu) {
@@ -143,15 +144,15 @@ public class cobaSIR2 {
                 pilih = Pilih();
                 switch (pilih) {
                     case 1:
-                    dataMaster(stokPerTanggal, tanggal1, z);
+                    dataMaster(tanggal1, z);
                     break;
 
                     case 2:
-                    z = dataMasukKeluarRusak(stokPerTanggal, tanggal1);
+                    dataMasukKeluarRusak(tanggal1);
                     break;
 
                     case 3:
-                    laporanBahan(laporanTgl, stokBahan, stokPerTanggal);
+                    laporanBahan(laporanTgl, stokBahan);
                     break;
 
                     case 7:
@@ -163,7 +164,7 @@ public class cobaSIR2 {
 
     }
 
-    public static void dataMaster(double[][] stokPerTanggal, LocalDate tanggal1, int z) {
+    public static void dataMaster( LocalDate tanggal1, int z) {
         boolean fiturMaster = true;
         while (fiturMaster) {
 
@@ -196,6 +197,7 @@ public class cobaSIR2 {
                             stokBahanBaru[j] = stokBahan[j];
                         }
                     }
+                    
                     int k = namaBahan[0].length;
                     for (; k < namaBahan[0].length + n; k++) {
                         System.out.print(" Masukkan nama bahan baru : ");
@@ -226,7 +228,7 @@ public class cobaSIR2 {
                         stokPerTanggal = new double[3][namaBahan[0].length];
                         laporanPerTanggal = new double[3][namaBahan[0].length];
                     }
-
+                    System.out.println(namaBahan[0].length);
                     break;
                 case 2:
                     System.out.println("====================================");
@@ -309,7 +311,7 @@ public class cobaSIR2 {
                     String namaBahanHapus[][] = new String[namaBahan.length][namaBahan[0].length - 1];
                     double stokBahanHapus[] = new double[namaBahan[0].length - 1];
                     double stokMKR[][] = new double[3][namaBahan[0].length - 1];
-                    double laporanHapus[][] = new double[3][namaBahan[0].length-1];
+                    double laporanHapus[][] = new double[laporanPerTanggal.length][namaBahan[0].length-1];
                     int g = 0;
                     if (hapusIndex != -1) {
                         
@@ -322,8 +324,18 @@ public class cobaSIR2 {
                                     stokMKR[0][g] = stokPerTanggal[0][j];
                                     stokMKR[1][g] = stokPerTanggal[1][j];
                                     stokMKR[2][g] = stokPerTanggal[2][j];
-                                    
                                     g++;
+                                }
+                            }
+                            int h = 0;
+                            for (int a = 0; a < laporanPerTanggal.length; a++){
+                                for (int b  = 0; b < laporanPerTanggal[a].length; b++){
+                                    if (b != hapusIndex){
+                                        if (h < laporanHapus[0].length){
+                                        laporanHapus[a][h] = laporanPerTanggal[a][b];
+                                        h++;
+                                    }
+                                    }
                                 }
                             }
                         }
@@ -352,12 +364,10 @@ public class cobaSIR2 {
         }
     }
 
-    public static int dataMasukKeluarRusak(double[][] stokPerTanggal, LocalDate tanggal1) {
+    public static int dataMasukKeluarRusak( LocalDate tanggal1) {
         boolean dataMKR = true;
         int z = 0;
         while (dataMKR) {
-
-            tanggal2 = tanggal1;
 
             System.out.println("==============================================");
             System.out.println("|           DATA MASUK DAN KELUAR            |");
@@ -732,18 +742,25 @@ public class cobaSIR2 {
         }
         return z;
     }
-    public static void laporanBahan(LocalDate[] laporanTgl, double[] stokBahan, double[][] laporanPerTanggal){
+    public static void laporanBahan(LocalDate[] laporanTgl, double[] stokBahan){
         boolean laporan = true;
         while(laporan){
             System.out.println("--------------------------\n" + "|   MENU LAPORAN BAHAN   |\n" + "--------------------------");
-            System.out.println("Masukkan tanggal laporan : ");
+            System.out.print("Masukkan tanggal laporan : ");
             String tanggalLaporan = sc.next();
             LocalDate tanggal3 = LocalDate.parse(tanggalLaporan);
-            for (int i = 0; i < laporanTgl.length; i++){
-                if (tanggal3.isEqual(laporanTgl[i])){
-
+            if (tanggal3 != null){
+                if (tanggal3.equals(laporanTgl[0])){
+                    for (int i = 0; i < 3; i++){
+                        for (int j=0; j < namaBahan[0].length; j++){
+                            if (laporanPerTanggal[i][j] != 0.0){
+                                System.out.println(namaBahan[0][j] + " yang masuk pada " + laporanTgl[0] + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
+                            }
+                        }
+                    }
                 }
             }
+            
         }
     }
 }
