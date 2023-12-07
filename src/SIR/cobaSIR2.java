@@ -13,7 +13,6 @@ public class cobaSIR2 {
                     "box", "box" }
     };
     static double stokBahan[] = { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
-    static double laporanPerTanggal[][] = new double[3][namaBahan[0].length];
     static double stokPerTanggal[][] = new double[3][namaBahan[0].length];
     static double bahanMasuk = 0.0, bahanKeluar = 0.0, bahanRusak = 0.0;
     static int hapusIndex = -1;
@@ -39,7 +38,6 @@ public class cobaSIR2 {
         String[][] inputan = new String[1][2];
         Boolean inventori = true, login = true, mainMenu = true;
         int pilih = 0,n = 0, z = 0, o = 0;
-        LocalDate[] laporanTgl = new LocalDate[0];
         LocalDate tanggal1 = null;
         String a = "";
 
@@ -115,21 +113,9 @@ public class cobaSIR2 {
             tanggal1 = LocalDate.parse(tanggalString);
 
             if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                double laporanPerTanggal2[][] = new double[laporanPerTanggal.length][laporanPerTanggal[0].length];
-                laporanPerTanggal2 = laporanPerTanggal;
                 double stokPerTanggalHapus[][] = new double[stokPerTanggal.length][stokPerTanggal[0].length];
                 stokPerTanggal = stokPerTanggalHapus;
                 n+=1;
-                laporanTgl = new LocalDate[n];
-                if (tanggal2 == null){
-                    laporanTgl[o] = tanggal1;
-                } else if (!tanggal1.isEqual(tanggal2)){
-                    o += 1;
-                    laporanPerTanggal = new double[3+3][namaBahan[0].length];
-                    laporanPerTanggal = laporanPerTanggal2;
-                    laporanTgl[o-1] = tanggal2;
-                    laporanTgl[o] = tanggal1;
-                }
             }
             while (mainMenu) {
 
@@ -137,7 +123,6 @@ public class cobaSIR2 {
                         + "|          MAIN MENU         |\n" + "==============================");
                 System.out.println("1. Data Master");
                 System.out.println("2. Data Bahan Masuk, Keluar, dan Rusak");
-                ;
                 System.out.println("3. Laporan Bahan");
                 System.out.println("4. Laporan Bahan Keluar Terbanyak");
                 System.out.println("7. Keluar\n" + "==============================");
@@ -152,9 +137,12 @@ public class cobaSIR2 {
                     break;
 
                     case 3:
-                    laporanBahan(laporanTgl, stokBahan);
+                    // masih mengalami kendala saat membuat logika agar bisa menampilkan laporan pada masing-masing tanggal
                     break;
 
+                    case 4:
+                    // masih mengalami kendala saat membuat logika agar bisa menampilkan laporan bahan paling banyak pada masing-masing tanggal
+                    break;
                     case 7:
                         mainMenu = false;
                         break;
@@ -226,7 +214,6 @@ public class cobaSIR2 {
                         namaBahan = namaBahanBaru;
                         stokBahan = stokBahanBaru;
                         stokPerTanggal = new double[3][namaBahan[0].length];
-                        laporanPerTanggal = new double[3][namaBahan[0].length];
                     }
                     System.out.println(namaBahan[0].length);
                     break;
@@ -311,7 +298,6 @@ public class cobaSIR2 {
                     String namaBahanHapus[][] = new String[namaBahan.length][namaBahan[0].length - 1];
                     double stokBahanHapus[] = new double[namaBahan[0].length - 1];
                     double stokMKR[][] = new double[3][namaBahan[0].length - 1];
-                    double laporanHapus[][] = new double[laporanPerTanggal.length][namaBahan[0].length-1];
                     int g = 0;
                     if (hapusIndex != -1) {
                         
@@ -327,20 +313,8 @@ public class cobaSIR2 {
                                     g++;
                                 }
                             }
-                            int h = 0;
-                            for (int a = 0; a < laporanPerTanggal.length; a++){
-                                for (int b  = 0; b < laporanPerTanggal[a].length; b++){
-                                    if (b != hapusIndex){
-                                        if (h < laporanHapus[0].length){
-                                        laporanHapus[a][h] = laporanPerTanggal[a][b];
-                                        h++;
-                                    }
-                                    }
-                                }
-                            }
                         }
                     }
-                    laporanPerTanggal = laporanHapus;
                     namaBahan = namaBahanHapus;
                     stokBahan = stokBahanHapus;
                     stokPerTanggal = stokMKR;
@@ -397,15 +371,6 @@ public class cobaSIR2 {
                                         bahanMasuk = stokPerTanggal[0][j];
                                         stokBahan[j] += stokPerTanggal[0][j];
                                         bahanMasukSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                                if (tanggal2 == null){
-                                                    laporanPerTanggal[0][j] = stokPerTanggal[0][j];
-                                                } else if (!tanggal2.equals(tanggal1)){
-                                                    z += 3;
-                                                    laporanPerTanggal[0+z][j] = stokPerTanggal[0][j];
-                                                    z = 0;
-                                                }
-                                            }
                                         sc.nextLine();
                                         System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
                                         String pilihan = sc.nextLine();
@@ -435,15 +400,6 @@ public class cobaSIR2 {
                                         stokBahan[j] += stokPerTanggal[0][j];
                                         bahanMasuk = stokPerTanggal[0][j];
                                         bahanMasukSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                                if (tanggal2 == null){
-                                                    laporanPerTanggal[0][j] = stokPerTanggal[0][j];
-                                                } else if (!tanggal2.equals(tanggal1)){
-                                                    z += 3;
-                                                    laporanPerTanggal[0+z][j] = stokPerTanggal[0][j];
-                                                    z = 0;
-                                                }
-                                            }
                                         sc.nextLine();
                                         System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
                                         String pilihan = sc.nextLine();
@@ -493,15 +449,6 @@ public class cobaSIR2 {
                                         bahanKeluar = stokPerTanggal[1][j];
                                         stokBahan[j] -= stokPerTanggal[1][j];
                                         bahanKeluarSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                                if (tanggal2 == null){
-                                                    laporanPerTanggal[1][0] = stokPerTanggal[1][j];
-                                                } else if (!tanggal2.equals(tanggal1)){
-                                                    z += 3;
-                                                    laporanPerTanggal[1+z][j] = stokPerTanggal[1][j];
-                                                    z = 0;
-                                                }
-                                            }
                                         sc.nextLine();
                                         System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
                                         String pilihan = sc.nextLine();
@@ -537,15 +484,6 @@ public class cobaSIR2 {
                                         stokBahan[j] -= stokPerTanggal[1][j];
                                         bahanKeluar = stokPerTanggal[1][j];
                                         bahanKeluarSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                                if (tanggal2 == null){
-                                                    laporanPerTanggal[1][0] = stokPerTanggal[1][j];
-                                                } else if (!tanggal2.equals(tanggal1)){
-                                                    z += 3;
-                                                    laporanPerTanggal[1+z][0+z] = stokPerTanggal[1][j];
-                                                    z = 0;
-                                                }
-                                            }
                                         sc.nextLine();
                                         System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
                                         String pilihan = sc.nextLine();
@@ -603,15 +541,6 @@ public class cobaSIR2 {
                                         bahanRusak = stokPerTanggal[2][j];
                                         stokBahan[j] -= stokPerTanggal[2][j];
                                         bahanKeluarSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                                if (tanggal2 == null){
-                                                    laporanPerTanggal[2][0] = stokPerTanggal[2][j];
-                                                } else if (!tanggal2.equals(tanggal1)){
-                                                    z += 3;
-                                                    laporanPerTanggal[2+z][0+z] = stokPerTanggal[2][j];
-                                                    z = 0;
-                                                }
-                                            }
                                         sc.nextLine();
                                         System.out.print("Kembali ke Menu Data Masuk, Keluar, dan rusak (y/n)? : ");
                                         String pilihan = sc.nextLine();
@@ -647,15 +576,6 @@ public class cobaSIR2 {
                                         stokBahan[j] -= stokPerTanggal[2][j];
                                         bahanRusak = stokPerTanggal[2][j];
                                         bahanKeluarSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                                if (tanggal2 == null){
-                                                    laporanPerTanggal[2][0] = stokPerTanggal[2][j];
-                                                } else if (!tanggal2.equals(tanggal1)){
-                                                    z += 3;
-                                                    laporanPerTanggal[2+z][0+z] = stokPerTanggal[2][j];
-                                                    z = 0;
-                                                }
-                                            }
                                         sc.nextLine();
                                         System.out.print("Kembali ke Menu Data Masuk, Keluar, dan Rusak (y/n)? : ");
                                         String pilihan = sc.nextLine();
@@ -742,25 +662,5 @@ public class cobaSIR2 {
         }
         return z;
     }
-    public static void laporanBahan(LocalDate[] laporanTgl, double[] stokBahan){
-        boolean laporan = true;
-        while(laporan){
-            System.out.println("--------------------------\n" + "|   MENU LAPORAN BAHAN   |\n" + "--------------------------");
-            System.out.print("Masukkan tanggal laporan : ");
-            String tanggalLaporan = sc.next();
-            LocalDate tanggal3 = LocalDate.parse(tanggalLaporan);
-            if (tanggal3 != null){
-                if (tanggal3.equals(laporanTgl[0])){
-                    for (int i = 0; i < 3; i++){
-                        for (int j=0; j < namaBahan[0].length; j++){
-                            if (laporanPerTanggal[i][j] != 0.0){
-                                System.out.println(namaBahan[0][j] + " yang masuk pada " + laporanTgl[0] + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
-                            }
-                        }
-                    }
-                }
-            }
-            
-        }
-    }
+    
 }
