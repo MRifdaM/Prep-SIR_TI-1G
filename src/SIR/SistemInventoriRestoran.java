@@ -911,7 +911,11 @@ public class SistemInventoriRestoran {
         String namaBahan2[][] = new String[namaBahan.length][namaBahan[1].length];
         double swap1 = 0.0;
         String swap2 = " ", swap3 = " ";
-        namaBahan2 = namaBahan;
+        for (int i = 0, k = 0; i < namaBahan.length; i++, k++) {
+            for (int j = 0; j < namaBahan[i].length; j++) {
+                namaBahan2[k][j] = namaBahan[i][j];
+            }
+        }
         for (int i = 1, k = 0; i < laporanPerTanggal.length; i+=3, k++) {
             for (int j = 0; j < laporanPerTanggal[i].length; j++) {
                 keluarTerbanyak[k][j] = laporanPerTanggal[i][j];
