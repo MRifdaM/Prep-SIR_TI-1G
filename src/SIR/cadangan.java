@@ -12,10 +12,10 @@ public class cadangan {
             { "kg", "kg", "kg", "kg", "kg", "kg", "kg", "kg", "kg", "kg", "kg", "kg", "kg", "liter", "box",
                     "box", "box" }
     };
+    static String penyebab[][] = new String[1][namaBahan[0].length];
     static double stokBahan[] = { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
     static double laporanPerTanggal[][] = new double[3][namaBahan[0].length];
     static double stokPerTanggal[][] = new double[3][namaBahan[0].length];
-    static double bahanMKR[][] = new double[3][namaBahan[0].length];
     static int hapusIndex = -1;
     static LocalDate tanggal2 = null;
 
@@ -37,10 +37,10 @@ public class cadangan {
                 { "1234", "5678", "9101" },
         };
         String[][] inputan = new String[1][2];
-        Boolean inventori = true, login = true, mainMenu = true;
+        Boolean inventori = true, login = true, mainMenu = true, tanggals = true;
         int pilih = 0, n = 0, z = 0, o = 0, p = 3;
         LocalDate[] laporanTgl = new LocalDate[0];
-        LocalDate tanggal1 = null;
+        LocalDate tanggal1 = null, tanggal = LocalDate.of(2023, 1, 1);
 
         while (inventori) {
             login = true;
@@ -109,15 +109,35 @@ public class cadangan {
                 }
             }
             tanggal2 = tanggal1;
+            tanggals = true;
+            System.out.println("===================================================\n" + "| Stok bahan awal dimulai pada tanggal 2023-01-01 |\n" + "===================================================");
+            while(tanggals){
             System.out.print("Masukkan Tanggal (format YYYY-MM-DD): ");
             String tanggalString = sc.next();
             tanggal1 = LocalDate.parse(tanggalString);
+            if (tanggal1.isAfter(tanggal)){
+                tanggals = false;
+                break;
+            } else {
+                System.out.println("Masukkan tanggal setelah tanggal 2023-01-01\n");
+            }
+            }
 
             if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
                 double laporanPerTanggal2[][] = new double[laporanPerTanggal.length][laporanPerTanggal[0].length];
-                laporanPerTanggal2 = laporanPerTanggal;
+                for (int i = 0; i < laporanPerTanggal.length; i++) {
+                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
+                            laporanPerTanggal2[i][j] = laporanPerTanggal[i][j];
+                        }
+                    }
                 double stokPerTanggalHapus[][] = new double[stokPerTanggal.length][stokPerTanggal[0].length];
                 stokPerTanggal = stokPerTanggalHapus;
+                String penyebab2[][] = new String[penyebab.length][penyebab[0].length];
+                for (int i = 0; i < penyebab.length; i++) {
+                        for (int j = 0; j < penyebab[i].length; j++) {
+                            penyebab2[i][j] = penyebab[i][j];
+                        }
+                    }
                 n += 1;
                 laporanTgl = new LocalDate[n];
                 if (tanggal2 == null) {
@@ -132,8 +152,15 @@ public class cadangan {
                             laporanPerTanggal[i][j] = laporanPerTanggal2[i][j];
                         }
                     }
+                    penyebab = new String[laporanTgl.length][namaBahan[0].length];
+                    for (int i = 0; i < penyebab2.length; i++) {
+                        for (int j = 0; j < penyebab2[i].length; j++) {
+                            penyebab[i][j] = penyebab2[i][j];
+                        }
+                    }
                     laporanTgl[o - 1] = tanggal2;
                     laporanTgl[o] = tanggal1;
+                    penyebab = penyebab2;
                 } 
             }
             while (mainMenu) {
@@ -149,11 +176,11 @@ public class cadangan {
                 pilih = Pilih();
                 switch (pilih) {
                     case 1:
-                        dataMaster(tanggal1, z);
+                        dataMaster(tanggal1, p);
                         break;
 
                     case 2:
-                        dataMasukKeluarRusak(tanggal1);
+                        dataMasukKeluarRusak(tanggal1, laporanTgl);
                         break;
 
                     case 3:
@@ -195,6 +222,27 @@ public class cadangan {
 
                     String namaBahanBaru[][] = new String[namaBahan.length][namaBahan[0].length + n];
                     double stokBahanBaru[] = new double[namaBahan[0].length + n];
+                    double stokPerTanggalBaru[][] = new double[namaBahan.length][namaBahan[0].length + n];
+                    double laporanPerTanggalBaru[][] = new double[z][namaBahan[0].length + n];
+                    String penyebabBaru[][] = new String[penyebab.length][penyebab.length + n];
+
+                    for (int i = 0; i < penyebab.length; i++) {
+                        for (int j = 0; j < penyebab[i].length; j++) {
+                            penyebabBaru[i][j] = penyebab[i][j];
+                        }
+                    }
+
+                    for (int i = 0; i < stokPerTanggal.length; i++) {
+                        for (int j = 0; j < stokPerTanggal[i].length; j++) {
+                            stokPerTanggalBaru[i][j] = stokPerTanggal[i][j];
+                        }
+                    }
+
+                    for (int i = 0; i < laporanPerTanggal.length; i++) {
+                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
+                            laporanPerTanggalBaru[i][j] = laporanPerTanggal[i][j];
+                        }
+                    }
 
                     for (int i = 0; i < namaBahan.length; i++) {
                         for (int j = 0; j < namaBahan[i].length; j++) {
@@ -230,8 +278,9 @@ public class cadangan {
                     if (bahanBaruDitambahkan) {
                         namaBahan = namaBahanBaru;
                         stokBahan = stokBahanBaru;
-                        stokPerTanggal = new double[3][namaBahan[0].length];
-                        laporanPerTanggal = new double[3][namaBahan[0].length];
+                        stokPerTanggal = stokPerTanggalBaru;
+                        laporanPerTanggal = laporanPerTanggalBaru;
+                        penyebab = penyebabBaru;
                     }
                     System.out.println(namaBahan[0].length);
                     break;
@@ -317,6 +366,7 @@ public class cadangan {
                     double stokBahanHapus[] = new double[namaBahan[0].length - 1];
                     double stokMKR[][] = new double[3][namaBahan[0].length - 1];
                     double laporanHapus[][] = new double[laporanPerTanggal.length][namaBahan[0].length - 1];
+                    String penyebabHapus[][] = new String[penyebab.length][namaBahan[0].length - 1];
                     int g = 0;
                     if (hapusIndex != -1) {
 
@@ -343,12 +393,24 @@ public class cadangan {
                                     }
                                 }
                             }
+                            int d = 0;
+                            for (int a = 0; a < penyebab.length; a++) {
+                                for (int b = 0; b < penyebab[a].length; b++) {
+                                    if (b != hapusIndex) {
+                                        if (d < penyebabHapus[0].length) {
+                                            penyebabHapus[a][d] = penyebab[a][b];
+                                            d++;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     laporanPerTanggal = laporanHapus;
                     namaBahan = namaBahanHapus;
                     stokBahan = stokBahanHapus;
                     stokPerTanggal = stokMKR;
+                    penyebab = penyebabHapus;
                     break;
 
                 case 4:
@@ -369,9 +431,8 @@ public class cadangan {
         }
     }
 
-    public static int dataMasukKeluarRusak(LocalDate tanggal1) {
+    public static void dataMasukKeluarRusak(LocalDate tanggal1, LocalDate laporanTgl[]) {
         boolean dataMKR = true;
-        int z = 0;
         while (dataMKR) {
 
             System.out.println("==============================================");
@@ -400,17 +461,17 @@ public class cadangan {
                                     System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang masuk : ");
                                     stokPerTanggal[0][j] = sc.nextDouble();
                                     if (stokPerTanggal[0][j] >= 0) {
-                                        bahanMKR[0][j] = stokPerTanggal[0][j];
                                         stokBahan[j] += stokPerTanggal[0][j];
                                         bahanMasukSama = true;
                                         if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
                                             if (tanggal2 == null) {
                                                 laporanPerTanggal[0][j] = stokPerTanggal[0][j];
                                             } else if (!tanggal2.equals(tanggal1)) {
-                                                z += 3;
+                                                int l = laporanTgl.length;
+                                                l *= 3;
                                                 System.out.println(laporanPerTanggal.length);
-                                                laporanPerTanggal[0 + z][j] = stokPerTanggal[0][j];
-                                                z = 0;
+                                                laporanPerTanggal[0 + l][j] = stokPerTanggal[0][j];
+                                                l = 0;
                                             } 
                                         }
                                         sc.nextLine();
@@ -434,16 +495,15 @@ public class cadangan {
                                     }
 
                                 } else {
-                                    stokBahan[j] -= bahanMKR[0][j];
+                                    stokBahan[j] -= stokPerTanggal[0][j];
                                     System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang masuk : ");
                                     stokPerTanggal[0][j] = sc.nextDouble();
                                     if (stokPerTanggal[0][j] >= 0) {
                                         stokBahan[j] += stokPerTanggal[0][j];
-                                        bahanMKR[0][j] = stokPerTanggal[0][j];
                                         bahanMasukSama = true;
                                         if (stokBahan[j] < 0) {
                                             System.out.println("=======================iNPUT DATA KELUAR DAN RUSAK SESUAI JUMLAH STOK BAHAN SEKARANG=======================");
-                                            stokBahan[j] = stokBahan[j] + bahanMKR[1][j] + bahanMKR[2][j];
+                                            stokBahan[j] = stokBahan[j] + stokPerTanggal[1][j] + stokPerTanggal[2][j];
                                             for (int k = 1; k < 3; k++) {
                                                 stokPerTanggal[k][j] = 0.0;
                                             }
@@ -452,9 +512,10 @@ public class cadangan {
                                             if (tanggal2 == null) {
                                                 laporanPerTanggal[0][j] = stokPerTanggal[0][j];
                                             } else if (!tanggal2.equals(tanggal1)) {
-                                                z += 3;
-                                                laporanPerTanggal[0 + z][j] = stokPerTanggal[0][j];
-                                                z = 0;
+                                                int l = laporanTgl.length;
+                                                l *= 3;
+                                                laporanPerTanggal[0 + l][j] = stokPerTanggal[0][j];
+                                                l = 0;
                                             } else if (tanggal1.isEqual(tanggal2)){
                                                 int index = 0;
                                                 while (laporanPerTanggal[index][j] != 0.0) {
@@ -509,18 +570,20 @@ public class cadangan {
                                     System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang keluar : ");
                                     stokPerTanggal[1][j] = sc.nextDouble();
                                     if (stokPerTanggal[1][j] <= stokBahan[j] && stokPerTanggal[1][j] >= 0.0) {
-                                        bahanMKR[1][j] = stokPerTanggal[1][j];
                                         stokBahan[j] -= stokPerTanggal[1][j];
                                         bahanKeluarSama = true;
                                         if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
                                             if (tanggal2 == null) {
                                                 laporanPerTanggal[1][j] = stokPerTanggal[1][j];
                                             } else if (!tanggal2.equals(tanggal1)) {
-                                                z += 3;
-                                                laporanPerTanggal[1 + z][j] = stokPerTanggal[1][j];
-                                                z = 0;
+                                                int l = laporanTgl.length;
+                                                l *= 3;
+                                                laporanPerTanggal[1 + l][j] = stokPerTanggal[1][j];
+                                                l = 0;
                                             }
                                         }
+                                        System.out.println("Masukkan penyebab " + namaBahan[0][j] + " rusak : " );
+                                        
                                         sc.nextLine();
                                         System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
                                         String pilihan = sc.nextLine();
@@ -549,20 +612,21 @@ public class cadangan {
                                         continue;
                                     }
                                 } else {
-                                    stokBahan[j] += bahanMKR[1][j];
+                                    stokBahan[j] += stokPerTanggal[1][j];
                                     System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang keluar : ");
                                     stokPerTanggal[1][j] = sc.nextDouble();
                                     if (stokPerTanggal[1][j] <= stokBahan[j] && stokPerTanggal[1][j] >= 0.0) {
                                         stokBahan[j] -= stokPerTanggal[1][j];
-                                        bahanMKR[1][j] = stokPerTanggal[1][j];
+                                        stokPerTanggal[1][j] = stokPerTanggal[1][j];
                                         bahanKeluarSama = true;
                                         if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
                                             if (tanggal2 == null) {
                                                 laporanPerTanggal[1][j] = stokPerTanggal[1][j];
                                             } else if (!tanggal2.equals(tanggal1)) {
-                                                z += 3;
-                                                laporanPerTanggal[1 + z][j] = stokPerTanggal[1][j];
-                                                z = 0;
+                                                int l = laporanTgl.length;
+                                                l *= 3;
+                                                laporanPerTanggal[1 + l][j] = stokPerTanggal[1][j];
+                                                l = 0;
                                             } else if (tanggal1.isEqual(tanggal2)){
                                                 laporanPerTanggal[1][j] = stokPerTanggal[1][j];
                                                 int index = 0;
@@ -625,18 +689,24 @@ public class cadangan {
                                     System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang rusak : ");
                                     stokPerTanggal[2][j] = sc.nextDouble();
                                     if (stokPerTanggal[2][j] <= stokBahan[j] && stokPerTanggal[2][j] >= 0.0) {
-                                        bahanMKR[2][j] = stokPerTanggal[2][j];
                                         stokBahan[j] -= stokPerTanggal[2][j];
                                         bahanKeluarSama = true;
                                         if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
                                             if (tanggal2 == null) {
                                                 laporanPerTanggal[2][j] = stokPerTanggal[2][j];
+                                                System.out.println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
+                                                penyebab[0][j] = sc.nextLine();
                                             } else if (!tanggal2.equals(tanggal1)) {
-                                                z += 3;
-                                                laporanPerTanggal[2 + z][j] = stokPerTanggal[2][j];
-                                                z = 0;
+                                                int l = laporanTgl.length;
+                                                l *= 3;
+                                                int x = laporanTgl.length;
+                                                laporanPerTanggal[2 + l][j] = stokPerTanggal[2][j];
+                                                l = 0;
+                                                System.out.println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
+                                                penyebab[x -1 ][j] = sc.nextLine();
                                             }
                                         }
+                                        
                                         sc.nextLine();
                                         System.out.print("Kembali ke Menu Data Masuk, Keluar, dan rusak (y/n)? : ");
                                         String pilihan = sc.nextLine();
@@ -665,20 +735,20 @@ public class cadangan {
                                         continue;
                                     }
                                 } else {
-                                    stokBahan[j] += bahanMKR[2][j];
+                                    stokBahan[j] += stokPerTanggal[2][j];
                                     System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang rusak : ");
                                     stokPerTanggal[2][j] = sc.nextDouble();
                                     if (stokPerTanggal[2][j] <= stokBahan[j] && stokPerTanggal[2][j] >= 0.0) {
                                         stokBahan[j] -= stokPerTanggal[2][j];
-                                        bahanMKR[2][j] = stokPerTanggal[2][j];
                                         bahanKeluarSama = true;
                                         if (tanggal2 == null || !tanggal1.isEqual(tanggal2) || tanggal1.isEqual(tanggal2)) {
                                             if (tanggal2 == null) {
                                                 laporanPerTanggal[2][j] = stokPerTanggal[2][j];
                                             } else if (!tanggal2.equals(tanggal1)) {
-                                                z += 3;
-                                                laporanPerTanggal[2 + z][j] = stokPerTanggal[2][j];
-                                                z = 0;
+                                                int l = laporanTgl.length;
+                                                l *= 3;
+                                                laporanPerTanggal[2 + l][j] = stokPerTanggal[2][j];
+                                                l = 0;
                                             } else if (tanggal1.isEqual(tanggal2)){
                                                 laporanPerTanggal[2][j] = stokPerTanggal[2][j];
                                                 int index = 0;
@@ -740,11 +810,11 @@ public class cadangan {
                     for (int i = 0; i < namaBahan.length-1; i++) {
                         for (int j = 0; j < namaBahan[0].length; j++) {
                             if (b.equalsIgnoreCase(namaBahan[i][j])) {
+                                stokBahan[j] -= stokPerTanggal[0][j];
                                 stokPerTanggal[0][j] = 0.0;
-                                stokBahan[j] -= bahanMKR[0][j];
                                 if (stokBahan[j] < 0) {
                                             System.out.println("=======================iNPUT DATA KELUAR DAN RUSAK SESUAI JUMLAH STOK BAHAN SEKARANG=======================");
-                                            stokBahan[j] = stokBahan[j] + bahanMKR[1][j] + bahanMKR[2][j];
+                                            stokBahan[j] = stokBahan[j] + stokPerTanggal[1][j] + stokPerTanggal[2][j];
                                             for (int k = 1; k < 3; k++) {
                                                 stokPerTanggal[k][j] = 0.0;
                                             }
@@ -761,8 +831,8 @@ public class cadangan {
                     for (int i = 0; i < namaBahan.length-1; i++) {
                         for (int j = 0; j < namaBahan[0].length; j++) {
                             if (c.equalsIgnoreCase(namaBahan[i][j])) {
+                                stokBahan[j] -= stokPerTanggal[1][j];
                                 stokPerTanggal[1][j] = 0.0;
-                                stokBahan[j] -= bahanMKR[1][j];
                             }
                         }
                     }
@@ -775,8 +845,8 @@ public class cadangan {
                     for (int i = 0; i < namaBahan.length-1; i++) {
                         for (int j = 0; j < namaBahan[0].length; j++) {
                             if (d.equalsIgnoreCase(namaBahan[i][j])) {
+                                stokBahan[j] -= stokPerTanggal[2][j];
                                 stokPerTanggal[2][j] = 0.0;
-                                stokBahan[j] -= bahanMKR[2][j];
                             }
                         }
                     }
@@ -833,7 +903,6 @@ public class cadangan {
                     break;
             }
         }
-        return z;
     }
 
     public static void laporanBahan(LocalDate[] laporanTgl, double[] stokBahan) {
