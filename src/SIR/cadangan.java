@@ -469,8 +469,7 @@ public class cadangan {
                                             } else if (!tanggal2.equals(tanggal1)) {
                                                 int l = laporanTgl.length;
                                                 l *= 3;
-                                                System.out.println(laporanPerTanggal.length);
-                                                laporanPerTanggal[0 + l][j] = stokPerTanggal[0][j];
+                                                laporanPerTanggal[l -3][j] = stokPerTanggal[0][j];
                                                 l = 0;
                                             } 
                                         }
@@ -514,14 +513,14 @@ public class cadangan {
                                             } else if (!tanggal2.equals(tanggal1)) {
                                                 int l = laporanTgl.length;
                                                 l *= 3;
-                                                laporanPerTanggal[0 + l][j] = stokPerTanggal[0][j];
+                                                laporanPerTanggal[l - 3][j] = stokPerTanggal[0][j];
                                                 l = 0;
                                             } else if (tanggal1.isEqual(tanggal2)){
                                                 int index = 0;
                                                 while (laporanPerTanggal[index][j] != 0.0) {
                                                     index += 3;
                                                 }
-                                                laporanPerTanggal[0][j] = stokPerTanggal[0][j];
+                                                laporanPerTanggal[index][j] = stokPerTanggal[0][j];
                                             }
                                         }
                                         sc.nextLine();
@@ -578,7 +577,7 @@ public class cadangan {
                                             } else if (!tanggal2.equals(tanggal1)) {
                                                 int l = laporanTgl.length;
                                                 l *= 3;
-                                                laporanPerTanggal[1 + l][j] = stokPerTanggal[1][j];
+                                                laporanPerTanggal[l - 2][j] = stokPerTanggal[1][j];
                                                 l = 0;
                                             }
                                         }
@@ -625,14 +624,14 @@ public class cadangan {
                                             } else if (!tanggal2.equals(tanggal1)) {
                                                 int l = laporanTgl.length;
                                                 l *= 3;
-                                                laporanPerTanggal[1 + l][j] = stokPerTanggal[1][j];
+                                                laporanPerTanggal[l - 2][j] = stokPerTanggal[1][j];
                                                 l = 0;
                                             } else if (tanggal1.isEqual(tanggal2)){
-                                                laporanPerTanggal[1][j] = stokPerTanggal[1][j];
                                                 int index = 0;
                                                 while (laporanPerTanggal[index][j] != 0.0) {
                                                     index += 3;
                                                 }
+                                                laporanPerTanggal[index][j] = stokPerTanggal[1][j];
                                             }
                                         }
                                         sc.nextLine();
@@ -700,7 +699,7 @@ public class cadangan {
                                                 int l = laporanTgl.length;
                                                 l *= 3;
                                                 int x = laporanTgl.length;
-                                                laporanPerTanggal[2 + l][j] = stokPerTanggal[2][j];
+                                                laporanPerTanggal[l - 1][j] = stokPerTanggal[2][j];
                                                 l = 0;
                                                 System.out.println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
                                                 penyebab[x -1 ][j] = sc.nextLine();
@@ -747,14 +746,14 @@ public class cadangan {
                                             } else if (!tanggal2.equals(tanggal1)) {
                                                 int l = laporanTgl.length;
                                                 l *= 3;
-                                                laporanPerTanggal[2 + l][j] = stokPerTanggal[2][j];
+                                                laporanPerTanggal[l - 1][j] = stokPerTanggal[2][j];
                                                 l = 0;
                                             } else if (tanggal1.isEqual(tanggal2)){
-                                                laporanPerTanggal[2][j] = stokPerTanggal[2][j];
                                                 int index = 0;
                                                 while (laporanPerTanggal[index][j] != 0.0) {
                                                     index += 3;
                                                 }
+                                                laporanPerTanggal[index][j] = stokPerTanggal[2][j];
                                             }
                                         }
                                         sc.nextLine();
