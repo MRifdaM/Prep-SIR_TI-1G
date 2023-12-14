@@ -15,9 +15,9 @@ public class cadangan {
     static String penyebab[][] = new String[1][namaBahan[0].length];
     static double stokBahan[] = { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
     static double laporanPerTanggal[][] = new double[3][namaBahan[0].length];
-    static double stokPerTanggal[][] = new double[3][namaBahan[0].length];
     static int hapusIndex = -1;
     static LocalDate tanggal2 = null;
+    static LocalDate[] laporanTgl = new LocalDate[1];
 
     public static String SearchName() {
         System.out.print("Masukkan Nama Bahan : ");
@@ -38,8 +38,7 @@ public class cadangan {
         };
         String[][] inputan = new String[1][2];
         Boolean inventori = true, login = true, mainMenu = true, tanggals = true;
-        int pilih = 0, n = 0, z = 0, o = 0, p = 3;
-        LocalDate[] laporanTgl = new LocalDate[0];
+        int pilih = 0, n = 1, z = 0, o = 0, p = 3;
         LocalDate tanggal1 = null, tanggal = LocalDate.of(2023, 1, 1);
 
         while (inventori) {
@@ -110,59 +109,70 @@ public class cadangan {
             }
             tanggal2 = tanggal1;
             tanggals = true;
-            System.out.println("===================================================\n" + "| Stok bahan awal dimulai pada tanggal 2023-01-01 |\n" + "===================================================");
-            while(tanggals){
-            System.out.print("Masukkan Tanggal (format YYYY-MM-DD): ");
-            String tanggalString = sc.next();
-            tanggal1 = LocalDate.parse(tanggalString);
-            if (tanggal1.isAfter(tanggal)){
-                tanggals = false;
-                break;
-            } else {
-                System.out.println("Masukkan tanggal setelah tanggal 2023-01-01\n");
+            System.out.println("===================================================\n"
+                    + "| Stok bahan awal dimulai pada tanggal 2023-01-01 |\n"
+                    + "===================================================");
+            while (tanggals) {
+                System.out.print("Masukkan Tanggal (format YYYY-MM-DD): ");
+                String tanggalString = sc.next();
+                tanggal1 = LocalDate.parse(tanggalString);
+                if (tanggal1.isAfter(tanggal)) {
+                    tanggals = false;
+                    break;
+                } else {
+                    System.out.println("Masukkan tanggal setelah tanggal 2023-01-01\n");
+                }
             }
-            }
-
-            if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
+            for (int t = 0; t < laporanTgl.length; t++) {
+            if (tanggal2 == null || !tanggal1.isEqual(laporanTgl[t])) {
                 double laporanPerTanggal2[][] = new double[laporanPerTanggal.length][laporanPerTanggal[0].length];
                 for (int i = 0; i < laporanPerTanggal.length; i++) {
-                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
-                            laporanPerTanggal2[i][j] = laporanPerTanggal[i][j];
-                        }
+                    for (int j = 0; j < laporanPerTanggal[i].length; j++) {
+                        laporanPerTanggal2[i][j] = laporanPerTanggal[i][j];
                     }
-                double stokPerTanggalHapus[][] = new double[stokPerTanggal.length][stokPerTanggal[0].length];
-                stokPerTanggal = stokPerTanggalHapus;
-                String penyebab2[][] = new String[penyebab.length][penyebab[0].length];
-                for (int i = 0; i < penyebab.length; i++) {
-                        for (int j = 0; j < penyebab[i].length; j++) {
-                            penyebab2[i][j] = penyebab[i][j];
-                        }
-                    }
-                n += 1;
-                laporanTgl = new LocalDate[n];
+                }
+
                 if (tanggal2 == null) {
                     laporanTgl[o] = tanggal1;
-                } else if (!tanggal1.isEqual(tanggal2)) {
-                    o += 1;
+                } else if (!tanggal1.isEqual(laporanTgl[t])) {
                     p += 3;
+                    n++;
+                    LocalDate laporanTgl2[] = new LocalDate[laporanTgl.length + 1];
+                    for (int i = 0; i < laporanTgl.length; i++) {
+                        laporanTgl2[i] = laporanTgl[i];
+                    }
+                    laporanTgl2[laporanTgl.length] = tanggal1;
+                    laporanTgl = new LocalDate[n];
+                    for (int i = 0; i < laporanTgl.length; i++) {
+                        laporanTgl[i] = laporanTgl2[i];
+                    }
+                    for (LocalDate date : laporanTgl) {
+                        System.out.println(date);
+                    }
                     laporanPerTanggal = new double[p][namaBahan[0].length];
-                    System.out.println(laporanPerTanggal.length);
+
                     for (int i = 0; i < laporanPerTanggal2.length; i++) {
                         for (int j = 0; j < laporanPerTanggal2[i].length; j++) {
                             laporanPerTanggal[i][j] = laporanPerTanggal2[i][j];
                         }
                     }
+                    String penyebab2[][] = new String[penyebab.length + 1][namaBahan[0].length];
+                    for (int i = 0; i < penyebab.length; i++) {
+                    for (int j = 0; j < penyebab[i].length; j++) {
+                        penyebab2[i][j] = penyebab[i][j];
+                    }
+                }
                     penyebab = new String[laporanTgl.length][namaBahan[0].length];
                     for (int i = 0; i < penyebab2.length; i++) {
                         for (int j = 0; j < penyebab2[i].length; j++) {
                             penyebab[i][j] = penyebab2[i][j];
                         }
                     }
-                    laporanTgl[o - 1] = tanggal2;
-                    laporanTgl[o] = tanggal1;
-                    penyebab = penyebab2;
-                } 
+
+                }
             }
+            t++;
+        }
             while (mainMenu) {
 
                 System.out.println("tanggal : " + tanggal1 + "\n==============================\n"
@@ -184,7 +194,7 @@ public class cadangan {
                         break;
 
                     case 3:
-                        laporanBahan(laporanTgl, stokBahan);
+                        laporanBahan(laporanTgl, stokBahan, tanggal1);
                         break;
 
                     case 7:
@@ -222,19 +232,12 @@ public class cadangan {
 
                     String namaBahanBaru[][] = new String[namaBahan.length][namaBahan[0].length + n];
                     double stokBahanBaru[] = new double[namaBahan[0].length + n];
-                    double stokPerTanggalBaru[][] = new double[namaBahan.length][namaBahan[0].length + n];
                     double laporanPerTanggalBaru[][] = new double[z][namaBahan[0].length + n];
                     String penyebabBaru[][] = new String[penyebab.length][penyebab.length + n];
 
                     for (int i = 0; i < penyebab.length; i++) {
                         for (int j = 0; j < penyebab[i].length; j++) {
                             penyebabBaru[i][j] = penyebab[i][j];
-                        }
-                    }
-
-                    for (int i = 0; i < stokPerTanggal.length; i++) {
-                        for (int j = 0; j < stokPerTanggal[i].length; j++) {
-                            stokPerTanggalBaru[i][j] = stokPerTanggal[i][j];
                         }
                     }
 
@@ -278,7 +281,6 @@ public class cadangan {
                     if (bahanBaruDitambahkan) {
                         namaBahan = namaBahanBaru;
                         stokBahan = stokBahanBaru;
-                        stokPerTanggal = stokPerTanggalBaru;
                         laporanPerTanggal = laporanPerTanggalBaru;
                         penyebab = penyebabBaru;
                     }
@@ -364,7 +366,6 @@ public class cadangan {
                     }
                     String namaBahanHapus[][] = new String[namaBahan.length][namaBahan[0].length - 1];
                     double stokBahanHapus[] = new double[namaBahan[0].length - 1];
-                    double stokMKR[][] = new double[3][namaBahan[0].length - 1];
                     double laporanHapus[][] = new double[laporanPerTanggal.length][namaBahan[0].length - 1];
                     String penyebabHapus[][] = new String[penyebab.length][namaBahan[0].length - 1];
                     int g = 0;
@@ -376,9 +377,6 @@ public class cadangan {
                                     namaBahanHapus[0][g] = namaBahan[0][j];
                                     namaBahanHapus[1][g] = namaBahan[1][j];
                                     stokBahanHapus[g] = stokBahan[j];
-                                    stokMKR[0][g] = stokPerTanggal[0][j];
-                                    stokMKR[1][g] = stokPerTanggal[1][j];
-                                    stokMKR[2][g] = stokPerTanggal[2][j];
                                     g++;
                                 }
                             }
@@ -409,7 +407,6 @@ public class cadangan {
                     laporanPerTanggal = laporanHapus;
                     namaBahan = namaBahanHapus;
                     stokBahan = stokBahanHapus;
-                    stokPerTanggal = stokMKR;
                     penyebab = penyebabHapus;
                     break;
 
@@ -455,92 +452,77 @@ public class cadangan {
                     for (int i = 0; i < namaBahan.length; i++) {
                         boolean bahanMasukSama = false;
                         String a = SearchName();
-                        for (int j = 0; j < namaBahan[0].length; j++) {
-                            if (a.equalsIgnoreCase(namaBahan[0][j])) {
-                                if (stokPerTanggal[0][j] == 0.0) {
-                                    System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang masuk : ");
-                                    stokPerTanggal[0][j] = sc.nextDouble();
-                                    if (stokPerTanggal[0][j] >= 0) {
-                                        stokBahan[j] += stokPerTanggal[0][j];
-                                        bahanMasukSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                            if (tanggal2 == null) {
-                                                laporanPerTanggal[0][j] = stokPerTanggal[0][j];
-                                            } else if (!tanggal2.equals(tanggal1)) {
-                                                int l = laporanTgl.length;
-                                                l *= 3;
-                                                laporanPerTanggal[l -3][j] = stokPerTanggal[0][j];
-                                                l = 0;
-                                            } 
-                                        }
-                                        sc.nextLine();
-                                        System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
-                                        String pilihan = sc.nextLine();
-                                        if (pilihan.equalsIgnoreCase("y")) {
-                                            i++;
-                                            break;
-                                        } else if (pilihan.equalsIgnoreCase("n")) {
-                                            i--;
-                                            continue;
-                                        }
+                        for (int t = 0; t < laporanTgl.length; t++) {
+                            if (tanggal1.isEqual(laporanTgl[t])) {
+                                int l = t * 3;
+                                for (int j = 0; j < namaBahan[0].length; j++) {
+                                    if (a.equalsIgnoreCase(namaBahan[0][j])) {
+                                        if (laporanPerTanggal[l][j] == 0.0) {
+                                            System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang masuk : ");
+                                            laporanPerTanggal[l][j] = sc.nextDouble();
+                                            if (laporanPerTanggal[l][j] >= 0) {
+                                                stokBahan[j] += laporanPerTanggal[l][j];
+                                                bahanMasukSama = true;
 
-                                    } else if (stokPerTanggal[0][j] < 0) {
-
-                                        System.out.println("=================================================\n"
-                                                + "Jumlah bahan masuk tidak valid\n"
-                                                + "=================================================");
-                                        j--;
-                                        continue;
-                                    }
-
-                                } else {
-                                    stokBahan[j] -= stokPerTanggal[0][j];
-                                    System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang masuk : ");
-                                    stokPerTanggal[0][j] = sc.nextDouble();
-                                    if (stokPerTanggal[0][j] >= 0) {
-                                        stokBahan[j] += stokPerTanggal[0][j];
-                                        bahanMasukSama = true;
-                                        if (stokBahan[j] < 0) {
-                                            System.out.println("=======================iNPUT DATA KELUAR DAN RUSAK SESUAI JUMLAH STOK BAHAN SEKARANG=======================");
-                                            stokBahan[j] = stokBahan[j] + stokPerTanggal[1][j] + stokPerTanggal[2][j];
-                                            for (int k = 1; k < 3; k++) {
-                                                stokPerTanggal[k][j] = 0.0;
-                                            }
-                                        }
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2) || tanggal1.isEqual(tanggal2)) {
-                                            if (tanggal2 == null) {
-                                                laporanPerTanggal[0][j] = stokPerTanggal[0][j];
-                                            } else if (!tanggal2.equals(tanggal1)) {
-                                                int l = laporanTgl.length;
-                                                l *= 3;
-                                                laporanPerTanggal[l - 3][j] = stokPerTanggal[0][j];
-                                                l = 0;
-                                            } else if (tanggal1.isEqual(tanggal2)){
-                                                int index = 0;
-                                                while (laporanPerTanggal[index][j] != 0.0) {
-                                                    index += 3;
+                                                sc.nextLine();
+                                                System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
+                                                String pilihan = sc.nextLine();
+                                                if (pilihan.equalsIgnoreCase("y")) {
+                                                    i++;
+                                                    break;
+                                                } else if (pilihan.equalsIgnoreCase("n")) {
+                                                    i--;
+                                                    continue;
                                                 }
-                                                laporanPerTanggal[index][j] = stokPerTanggal[0][j];
+
+                                            } else if (laporanPerTanggal[l][j] < 0.0) {
+
+                                                System.out.println("=================================================\n"
+                                                        + "Jumlah bahan masuk tidak valid\n"
+                                                        + "=================================================");
+                                                j--;
+                                                continue;
+                                            }
+
+                                        } else {
+                                            stokBahan[j] -= laporanPerTanggal[l][j];
+                                            System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang masuk : ");
+                                            laporanPerTanggal[l][j] = sc.nextDouble();
+                                            if (laporanPerTanggal[l][j] >= 0) {
+                                                stokBahan[j] += laporanPerTanggal[l][j];
+                                                bahanMasukSama = true;
+                                                if (stokBahan[j] < 0) {
+                                                    System.out.println(
+                                                            "=======================iNPUT DATA KELUAR DAN RUSAK SESUAI JUMLAH STOK BAHAN SEKARANG=======================");
+                                                    stokBahan[j] = stokBahan[j] + laporanPerTanggal[l + 1][j]
+                                                            + laporanPerTanggal[l + 2][j];
+
+                                                    laporanPerTanggal[l + 1][j] = 0.0;
+                                                    laporanPerTanggal[l + 2][j] = 0.0;
+
+                                                }
+
+                                                sc.nextLine();
+                                                System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
+                                                String pilihan = sc.nextLine();
+                                                if (pilihan.equalsIgnoreCase("y")) {
+                                                    i++;
+                                                    t++;
+                                                    break;
+                                                } else if (pilihan.equalsIgnoreCase("n")) {
+                                                    i--;
+                                                    continue;
+                                                }
+
+                                            } else if (laporanPerTanggal[l][j] < 0.0) {
+
+                                                System.out.println("=================================================\n"
+                                                        + "Jumlah bahan masuk tidak valid\n"
+                                                        + "=================================================");
+                                                j--;
+                                                continue;
                                             }
                                         }
-                                        sc.nextLine();
-                                        System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
-                                        String pilihan = sc.nextLine();
-                                        if (pilihan.equalsIgnoreCase("y")) {
-                                            i++;
-                                            break;
-                                        } else if (pilihan.equalsIgnoreCase("n")) {
-                                            i--;
-                                            continue;
-                                        }
-
-                                    } else if (stokPerTanggal[0][j] > stokBahan[j]) {
-
-                                        System.out.println("=================================================\n"
-                                                + "Jumlah bahan masuk tidak valid\n"
-                                                + "=================================================");
-                                        j--;
-                                        continue;
                                     }
                                 }
                             }
@@ -563,103 +545,86 @@ public class cadangan {
                     for (int i = 0; i < namaBahan.length; i++) {
                         boolean bahanKeluarSama = false;
                         String a = SearchName();
-                        for (int j = 0; j < namaBahan[0].length; j++) {
-                            if (a.equalsIgnoreCase(namaBahan[0][j])) {
-                                if (stokPerTanggal[1][j] == 0.0) {
-                                    System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang keluar : ");
-                                    stokPerTanggal[1][j] = sc.nextDouble();
-                                    if (stokPerTanggal[1][j] <= stokBahan[j] && stokPerTanggal[1][j] >= 0.0) {
-                                        stokBahan[j] -= stokPerTanggal[1][j];
-                                        bahanKeluarSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                            if (tanggal2 == null) {
-                                                laporanPerTanggal[1][j] = stokPerTanggal[1][j];
-                                            } else if (!tanggal2.equals(tanggal1)) {
-                                                int l = laporanTgl.length;
-                                                l *= 3;
-                                                laporanPerTanggal[l - 2][j] = stokPerTanggal[1][j];
-                                                l = 0;
-                                            }
-                                        }
-                                        System.out.println("Masukkan penyebab " + namaBahan[0][j] + " rusak : " );
-                                        
-                                        sc.nextLine();
-                                        System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
-                                        String pilihan = sc.nextLine();
-                                        if (pilihan.equalsIgnoreCase("y")) {
-                                            i++;
-                                            break;
-                                        } else if (pilihan.equalsIgnoreCase("n")) {
-                                            i--;
-                                            continue;
-                                        }
+                        for (int t = 0; t < laporanTgl.length; t++) {
+                            if (tanggal1.isEqual(laporanTgl[t])) {
+                                int l = t * 3;
+                                for (int j = 0; j < namaBahan[0].length; j++) {
+                                    if (a.equalsIgnoreCase(namaBahan[0][j])) {
+                                        if (laporanPerTanggal[l + 1][j] == 0.0) {
+                                            System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang keluar : ");
+                                            laporanPerTanggal[l + 1][j] = sc.nextDouble();
+                                            if (laporanPerTanggal[l + 1][j] <= stokBahan[j]
+                                                    && laporanPerTanggal[l + 1][j] >= 0.0) {
+                                                stokBahan[j] -= laporanPerTanggal[l + 1][j];
+                                                bahanKeluarSama = true;
 
-                                    } else if (stokPerTanggal[1][j] > stokBahan[j]) {
-
-                                        System.out.println(
-                                                "=================================================================\n"
-                                                        + "jumlah keluar melebihi stock bahan " + namaBahan[0][j]
-                                                        + " yang tersedia\n"
-                                                        + "=================================================================");
-                                        j--;
-                                        continue;
-                                    } else {
-                                        System.out.println("=================================================\n"
-                                                + "Jumlah bahan keluar tidak valid\n"
-                                                + "=================================================");
-                                        j--;
-                                        continue;
-                                    }
-                                } else {
-                                    stokBahan[j] += stokPerTanggal[1][j];
-                                    System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang keluar : ");
-                                    stokPerTanggal[1][j] = sc.nextDouble();
-                                    if (stokPerTanggal[1][j] <= stokBahan[j] && stokPerTanggal[1][j] >= 0.0) {
-                                        stokBahan[j] -= stokPerTanggal[1][j];
-                                        stokPerTanggal[1][j] = stokPerTanggal[1][j];
-                                        bahanKeluarSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                            if (tanggal2 == null) {
-                                                laporanPerTanggal[1][j] = stokPerTanggal[1][j];
-                                            } else if (!tanggal2.equals(tanggal1)) {
-                                                int l = laporanTgl.length;
-                                                l *= 3;
-                                                laporanPerTanggal[l - 2][j] = stokPerTanggal[1][j];
-                                                l = 0;
-                                            } else if (tanggal1.isEqual(tanggal2)){
-                                                int index = 0;
-                                                while (laporanPerTanggal[index][j] != 0.0) {
-                                                    index += 3;
+                                                sc.nextLine();
+                                                System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
+                                                String pilihan = sc.nextLine();
+                                                if (pilihan.equalsIgnoreCase("y")) {
+                                                    i++;
+                                                    break;
+                                                } else if (pilihan.equalsIgnoreCase("n")) {
+                                                    i--;
+                                                    continue;
                                                 }
-                                                laporanPerTanggal[index][j] = stokPerTanggal[1][j];
+
+                                            } else if (laporanPerTanggal[l + 1][j] > stokBahan[j]) {
+
+                                                System.out.println(
+                                                        "=================================================================\n"
+                                                                + "jumlah keluar melebihi stock bahan "
+                                                                + namaBahan[0][j]
+                                                                + " yang tersedia\n"
+                                                                + "=================================================================");
+                                                j--;
+                                                continue;
+                                            } else {
+                                                System.out.println("=================================================\n"
+                                                        + "Jumlah bahan keluar tidak valid\n"
+                                                        + "=================================================");
+                                                j--;
+                                                continue;
+                                            }
+                                        } else {
+                                            stokBahan[j] += laporanPerTanggal[l + 1][j];
+                                            System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang keluar : ");
+                                            laporanPerTanggal[l + 1][j] = sc.nextDouble();
+                                            if (laporanPerTanggal[l + 1][j] <= stokBahan[j]
+                                                    && laporanPerTanggal[l + 1][j] >= 0.0) {
+                                                stokBahan[j] -= laporanPerTanggal[l + 1][j];
+                                                bahanKeluarSama = true;
+
+                                                sc.nextLine();
+                                                System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
+                                                String pilihan = sc.nextLine();
+                                                if (pilihan.equalsIgnoreCase("y")) {
+                                                    i++;
+                                                    t++;
+                                                    break;
+                                                } else if (pilihan.equalsIgnoreCase("n")) {
+                                                    i--;
+                                                    continue;
+                                                }
+
+                                            } else if (laporanPerTanggal[l + 1][j] > stokBahan[j]) {
+
+                                                System.out.println(
+                                                        "=================================================================\n"
+                                                                + "jumlah keluar melebihi stock bahan "
+                                                                + namaBahan[0][j]
+                                                                + " yang tersedia\n"
+                                                                + "=================================================================");
+                                                j--;
+                                                continue;
+                                            } else {
+                                                System.out.println("=================================================\n"
+                                                        + "Jumlah bahan keluar tidak valid\n"
+                                                        + "=================================================");
+                                                j--;
+                                                continue;
                                             }
                                         }
-                                        sc.nextLine();
-                                        System.out.print("Kembali ke Menu Data Masuk Dan Keluar (y/n)? : ");
-                                        String pilihan = sc.nextLine();
-                                        if (pilihan.equalsIgnoreCase("y")) {
-                                            i++;
-                                            break;
-                                        } else if (pilihan.equalsIgnoreCase("n")) {
-                                            i--;
-                                            continue;
-                                        }
-
-                                    } else if (stokPerTanggal[1][j] > stokBahan[j]) {
-
-                                        System.out.println(
-                                                "=================================================================\n"
-                                                        + "jumlah keluar melebihi stock bahan " + namaBahan[0][j]
-                                                        + " yang tersedia\n"
-                                                        + "=================================================================");
-                                        j--;
-                                        continue;
-                                    } else {
-                                        System.out.println("=================================================\n"
-                                                + "Jumlah bahan keluar tidak valid\n"
-                                                + "=================================================");
-                                        j--;
-                                        continue;
                                     }
                                 }
                             }
@@ -682,106 +647,94 @@ public class cadangan {
                     for (int i = 0; i < namaBahan.length; i++) {
                         boolean bahanKeluarSama = false;
                         String a = SearchName();
-                        for (int j = 0; j < namaBahan[0].length; j++) {
-                            if (a.equalsIgnoreCase(namaBahan[0][j])) {
-                                if (stokPerTanggal[2][j] == 0.0) {
-                                    System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang rusak : ");
-                                    stokPerTanggal[2][j] = sc.nextDouble();
-                                    if (stokPerTanggal[2][j] <= stokBahan[j] && stokPerTanggal[2][j] >= 0.0) {
-                                        stokBahan[j] -= stokPerTanggal[2][j];
-                                        bahanKeluarSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2)) {
-                                            if (tanggal2 == null) {
-                                                laporanPerTanggal[2][j] = stokPerTanggal[2][j];
-                                                System.out.println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
-                                                penyebab[0][j] = sc.nextLine();
-                                            } else if (!tanggal2.equals(tanggal1)) {
-                                                int l = laporanTgl.length;
-                                                l *= 3;
+                        for (int t = 0; t < laporanTgl.length; t++) {
+                            if (tanggal1.isEqual(laporanTgl[t])) {
+                                int l = t * 3;
+                                for (int j = 0; j < namaBahan[0].length; j++) {
+                                    if (a.equalsIgnoreCase(namaBahan[0][j])) {
+                                        if (laporanPerTanggal[l + 2][j] == 0.0) {
+                                            System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang rusak : ");
+                                            laporanPerTanggal[l + 2][j] = sc.nextDouble();
+                                            if (laporanPerTanggal[l + 2][j] <= stokBahan[j]
+                                                    && laporanPerTanggal[l + 2][j] >= 0.0) {
+                                                stokBahan[j] -= laporanPerTanggal[l + 2][j];
+                                                bahanKeluarSama = true;
                                                 int x = laporanTgl.length;
-                                                laporanPerTanggal[l - 1][j] = stokPerTanggal[2][j];
-                                                l = 0;
-                                                System.out.println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
-                                                penyebab[x -1 ][j] = sc.nextLine();
-                                            }
-                                        }
-                                        
-                                        sc.nextLine();
-                                        System.out.print("Kembali ke Menu Data Masuk, Keluar, dan rusak (y/n)? : ");
-                                        String pilihan = sc.nextLine();
-                                        if (pilihan.equalsIgnoreCase("y")) {
-                                            i++;
-                                            break;
-                                        } else if (pilihan.equalsIgnoreCase("n")) {
-                                            i--;
-                                            continue;
-                                        }
+                                                System.out
+                                                        .println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
+                                                penyebab[x - 1][j] = sc.nextLine();
 
-                                    } else if (stokPerTanggal[2][j] > stokBahan[j]) {
-
-                                        System.out.println(
-                                                "=================================================================\n"
-                                                        + "jumlah rusak melebihi stock bahan " + namaBahan[0][j]
-                                                        + " yang tersedia\n"
-                                                        + "=================================================================");
-                                        j--;
-                                        continue;
-                                    } else {
-                                        System.out.println("=================================================\n"
-                                                + "Jumlah bahan rusak tidak valid\n"
-                                                + "=================================================");
-                                        j--;
-                                        continue;
-                                    }
-                                } else {
-                                    stokBahan[j] += stokPerTanggal[2][j];
-                                    System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang rusak : ");
-                                    stokPerTanggal[2][j] = sc.nextDouble();
-                                    if (stokPerTanggal[2][j] <= stokBahan[j] && stokPerTanggal[2][j] >= 0.0) {
-                                        stokBahan[j] -= stokPerTanggal[2][j];
-                                        bahanKeluarSama = true;
-                                        if (tanggal2 == null || !tanggal1.isEqual(tanggal2) || tanggal1.isEqual(tanggal2)) {
-                                            if (tanggal2 == null) {
-                                                laporanPerTanggal[2][j] = stokPerTanggal[2][j];
-                                            } else if (!tanggal2.equals(tanggal1)) {
-                                                int l = laporanTgl.length;
-                                                l *= 3;
-                                                laporanPerTanggal[l - 1][j] = stokPerTanggal[2][j];
-                                                l = 0;
-                                            } else if (tanggal1.isEqual(tanggal2)){
-                                                int index = 0;
-                                                while (laporanPerTanggal[index][j] != 0.0) {
-                                                    index += 3;
+                                                sc.nextLine();
+                                                System.out.print(
+                                                        "Kembali ke Menu Data Masuk, Keluar, dan rusak (y/n)? : ");
+                                                String pilihan = sc.nextLine();
+                                                if (pilihan.equalsIgnoreCase("y")) {
+                                                    i++;
+                                                    break;
+                                                } else if (pilihan.equalsIgnoreCase("n")) {
+                                                    i--;
+                                                    continue;
                                                 }
-                                                laporanPerTanggal[index][j] = stokPerTanggal[2][j];
+
+                                            } else if (laporanPerTanggal[l + 2][j] > stokBahan[j]) {
+
+                                                System.out.println(
+                                                        "=================================================================\n"
+                                                                + "jumlah rusak melebihi stock bahan " + namaBahan[0][j]
+                                                                + " yang tersedia\n"
+                                                                + "=================================================================");
+                                                j--;
+                                                continue;
+                                            } else {
+                                                System.out.println("=================================================\n"
+                                                        + "Jumlah bahan rusak tidak valid\n"
+                                                        + "=================================================");
+                                                j--;
+                                                continue;
+                                            }
+                                        } else {
+                                            stokBahan[j] += laporanPerTanggal[l + 2][j];
+                                            System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang rusak : ");
+                                            laporanPerTanggal[l + 2][j] = sc.nextDouble();
+                                            if (laporanPerTanggal[l + 2][j] <= stokBahan[j]
+                                                    && laporanPerTanggal[l + 2][j] >= 0.0) {
+                                                stokBahan[j] -= laporanPerTanggal[l + 2][j];
+                                                bahanKeluarSama = true;
+                                                int x = laporanTgl.length;
+                                                System.out
+                                                        .println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
+                                                penyebab[x - 1][j] = sc.nextLine();
+
+                                                sc.nextLine();
+                                                System.out.print(
+                                                        "Kembali ke Menu Data Masuk, Keluar, dan Rusak (y/n)? : ");
+                                                String pilihan = sc.nextLine();
+                                                if (pilihan.equalsIgnoreCase("y")) {
+                                                    i++;
+                                                    t++;
+                                                    break;
+                                                } else if (pilihan.equalsIgnoreCase("n")) {
+                                                    i--;
+                                                    continue;
+                                                }
+
+                                            } else if (laporanPerTanggal[l + 2][j] > stokBahan[j]) {
+
+                                                System.out.println(
+                                                        "=================================================================\n"
+                                                                + "jumlah rusak melebihi stock bahan " + namaBahan[0][j]
+                                                                + " yang tersedia\n"
+                                                                + "=================================================================");
+                                                j--;
+                                                continue;
+                                            } else {
+                                                System.out.println("=================================================\n"
+                                                        + "Jumlah bahan rusak tidak valid\n"
+                                                        + "=================================================");
+                                                j--;
+                                                continue;
                                             }
                                         }
-                                        sc.nextLine();
-                                        System.out.print("Kembali ke Menu Data Masuk, Keluar, dan Rusak (y/n)? : ");
-                                        String pilihan = sc.nextLine();
-                                        if (pilihan.equalsIgnoreCase("y")) {
-                                            i++;
-                                            break;
-                                        } else if (pilihan.equalsIgnoreCase("n")) {
-                                            i--;
-                                            continue;
-                                        }
-
-                                    } else if (stokPerTanggal[2][j] > stokBahan[j]) {
-
-                                        System.out.println(
-                                                "=================================================================\n"
-                                                        + "jumlah rusak melebihi stock bahan " + namaBahan[0][j]
-                                                        + " yang tersedia\n"
-                                                        + "=================================================================");
-                                        j--;
-                                        continue;
-                                    } else {
-                                        System.out.println("=================================================\n"
-                                                + "Jumlah bahan rusak tidak valid\n"
-                                                + "=================================================");
-                                        j--;
-                                        continue;
                                     }
                                 }
                             }
@@ -797,90 +750,127 @@ public class cadangan {
                     break;
 
                 case 4:
-                boolean hapus = true;
-                while(hapus) {
-                System.out.println("==============================================\n" + " 1. Hapus Data Bahan Masuk\n" + " 2. Hapus Data Bahan Keluar\n" + " 3. Hapus Data Bahan Keluar\n" + " 4. Kembali\n" + "==============================================");
-                int pilih8 = Pilih();
-                switch(pilih8) {
-                    case 1:
-                    System.out.println("=====================================\n" + " Hapus Data Bahan Masuk\n" + "=====================================");
-                    sc.nextLine();
-                    String b = SearchName();
-                    for (int i = 0; i < namaBahan.length-1; i++) {
-                        for (int j = 0; j < namaBahan[0].length; j++) {
-                            if (b.equalsIgnoreCase(namaBahan[i][j])) {
-                                stokBahan[j] -= stokPerTanggal[0][j];
-                                stokPerTanggal[0][j] = 0.0;
-                                if (stokBahan[j] < 0) {
-                                            System.out.println("=======================iNPUT DATA KELUAR DAN RUSAK SESUAI JUMLAH STOK BAHAN SEKARANG=======================");
-                                            stokBahan[j] = stokBahan[j] + stokPerTanggal[1][j] + stokPerTanggal[2][j];
-                                            for (int k = 1; k < 3; k++) {
-                                                stokPerTanggal[k][j] = 0.0;
+                    boolean hapus = true;
+                    while (hapus) {
+                        System.out.println(
+                                "==============================================\n" + " 1. Hapus Data Bahan Masuk\n"
+                                        + " 2. Hapus Data Bahan Keluar\n" + " 3. Hapus Data Bahan Keluar\n"
+                                        + " 4. Kembali\n" + "==============================================");
+                        int pilih8 = Pilih();
+                        switch (pilih8) {
+                            case 1:
+                                System.out.println("=====================================\n"
+                                        + " Hapus Data Bahan Masuk\n" + "=====================================");
+                                sc.nextLine();
+                                String b = SearchName();
+                                for (int i = 0; i < namaBahan.length - 1; i++) {
+                                    for (int t = 0; t < laporanTgl.length; t++) {
+                                        if (tanggal1.isEqual(laporanTgl[t])) {
+                                            int l = t * 3;
+                                            for (int j = 0; j < namaBahan[0].length; j++) {
+                                                if (b.equalsIgnoreCase(namaBahan[i][j])) {
+                                                    stokBahan[j] -= laporanPerTanggal[l][j];
+                                                    laporanPerTanggal[l][j] = 0.0;
+                                                    if (stokBahan[j] < 0) {
+                                                        System.out.println(
+                                                                "=======================iNPUT DATA KELUAR DAN RUSAK SESUAI JUMLAH STOK BAHAN SEKARANG=======================");
+                                                        stokBahan[j] = stokBahan[j] + laporanPerTanggal[l + 1][j]
+                                                                + laporanPerTanggal[l + 2][j];
+
+                                                        laporanPerTanggal[l + 1][j] = 0.0;
+                                                        laporanPerTanggal[l + 2][j] = 0.0;
+                                                    }
+                                                }
                                             }
                                         }
-                            }
+                                    }
+                                }
+                                break;
+
+                            case 2:
+                                System.out.println("=====================================\n"
+                                        + " Hapus Data Bahan Keluar\n" + "=====================================");
+                                sc.nextLine();
+                                String c = SearchName();
+                                for (int i = 0; i < namaBahan.length - 1; i++) {
+                                    for (int t = 0; t < laporanTgl.length; t++) {
+                                        if (tanggal1.isEqual(laporanTgl[t])) {
+                                            int l = t * 3;
+                                            for (int j = 0; j < namaBahan[0].length; j++) {
+                                                if (c.equalsIgnoreCase(namaBahan[i][j])) {
+                                                    stokBahan[j] -= laporanPerTanggal[l + 1][j];
+                                                    laporanPerTanggal[l + 1][j] = 0.0;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+
+                            case 3:
+                                System.out.println("=====================================\n"
+                                        + " Hapus Data Bahan Rusak\n" + "=====================================");
+                                sc.nextLine();
+                                String d = SearchName();
+                                for (int i = 0; i < namaBahan.length - 1; i++) {
+                                    for (int t = 0; t < laporanTgl.length; t++) {
+                                        if (tanggal1.isEqual(laporanTgl[t])) {
+                                            int l = t * 3;
+                                            for (int j = 0; j < namaBahan[0].length; j++) {
+                                                if (d.equalsIgnoreCase(namaBahan[i][j])) {
+                                                    stokBahan[j] -= laporanPerTanggal[l + 2][j];
+                                                    laporanPerTanggal[l + 2][j] = 0.0;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+
+                            case 4:
+                                hapus = false;
+                                break;
                         }
                     }
                     break;
-
-                    case 2:
-                    System.out.println("=====================================\n" + " Hapus Data Bahan Keluar\n" + "=====================================");
-                    sc.nextLine();
-                    String c = SearchName();
-                    for (int i = 0; i < namaBahan.length-1; i++) {
-                        for (int j = 0; j < namaBahan[0].length; j++) {
-                            if (c.equalsIgnoreCase(namaBahan[i][j])) {
-                                stokBahan[j] -= stokPerTanggal[1][j];
-                                stokPerTanggal[1][j] = 0.0;
-                            }
-                        }
-                    }
-                    break;
-
-                    case 3:
-                    System.out.println("=====================================\n" + " Hapus Data Bahan Rusak\n" + "=====================================");
-                    sc.nextLine();
-                    String d = SearchName();
-                    for (int i = 0; i < namaBahan.length-1; i++) {
-                        for (int j = 0; j < namaBahan[0].length; j++) {
-                            if (d.equalsIgnoreCase(namaBahan[i][j])) {
-                                stokBahan[j] -= stokPerTanggal[2][j];
-                                stokPerTanggal[2][j] = 0.0;
-                            }
-                        }
-                    }
-                    break;
-
-                    case 4:
-                    hapus = false;
-                    break;
-                }
-            }
-                break;
 
                 case 5:
                     System.out.println("====================================");
                     System.out.println("|            DATA MASUK            |");
                     System.out.println("====================================");
-                    for (int i = 0; i < namaBahan.length - 1; i++) {
-                        for (int j = 0; j < namaBahan[i].length; j++) {
-                            System.out.println(namaBahan[i][j] + " " + stokPerTanggal[i][j] + " " + namaBahan[1][j]);
+
+                    for (int t = 0; t < laporanTgl.length; t++) {
+                        if (tanggal1.isEqual(laporanTgl[t])) {
+                            int l = t * 3;
+                            for (int j = 0; j < namaBahan[0].length; j++) {
+                                System.out.println(
+                                        namaBahan[0][j] + " " + laporanPerTanggal[l][j] + " " + namaBahan[1][j]);
+                            }
                         }
                     }
+
                     System.out.println("====================================");
                     System.out.println("|            DATA KELUAR           |");
                     System.out.println("====================================");
-                    for (int i = 1; i < namaBahan.length; i++) {
-                        for (int j = 0; j < namaBahan[i].length; j++) {
-                            System.out.println(namaBahan[0][j] + " " + stokPerTanggal[i][j] + " " + namaBahan[1][j]);
+                    for (int t = 0; t < laporanTgl.length; t++) {
+                        if (tanggal1.isEqual(laporanTgl[t])) {
+                            int l = t * 3;
+                            for (int j = 0; j < namaBahan[0].length; j++) {
+                                System.out.println(
+                                        namaBahan[0][j] + " " + laporanPerTanggal[l + 1][j] + " " + namaBahan[1][j]);
+                            }
                         }
                     }
                     System.out.println("======================");
                     System.out.println("|  DATA BAHAN RUSAK  |");
                     System.out.println("======================");
-                    for (int i = 2; i < stokPerTanggal.length; i++) {
-                        for (int j = 0; j < namaBahan[1].length; j++) {
-                            System.out.println(namaBahan[0][j] + " : " + stokPerTanggal[2][j] + " " + namaBahan[1][j]);
+                    for (int t = 0; t < laporanTgl.length; t++) {
+                        if (tanggal1.isEqual(laporanTgl[t])) {
+                            int l = t * 3;
+                            for (int j = 0; j < namaBahan[1].length; j++) {
+                                System.out.println(
+                                        namaBahan[0][j] + " : " + laporanPerTanggal[l + 2][j] + " " + namaBahan[1][j]);
+                            }
                         }
                     }
                     System.out.println("====================================");
@@ -904,23 +894,28 @@ public class cadangan {
         }
     }
 
-    public static void laporanBahan(LocalDate[] laporanTgl, double[] stokBahan) {
+    public static void laporanBahan(LocalDate[] laporanTgl, double[] stokBahan, LocalDate tanggal1) {
         boolean laporan = true;
-        double keluarTerbanyak[][] = new double [laporanTgl.length][stokBahan.length];
+        double keluarTerbanyak[][] = new double[laporanTgl.length][stokBahan.length];
         String namaBahan2[][] = new String[namaBahan.length][namaBahan[1].length];
         double swap1 = 0.0;
         String swap2 = " ", swap3 = " ";
+        for (int i = 0; i < penyebab.length; i++) {
+            for (int j = 0; j < penyebab[0].length; j++) {
+            System.out.println(penyebab[i][j]);   
+            }
+        }
         for (int i = 0, k = 0; i < namaBahan.length; i++, k++) {
             for (int j = 0; j < namaBahan[i].length; j++) {
                 namaBahan2[k][j] = namaBahan[i][j];
             }
         }
-        for (int i = 1, k = 0; i < laporanPerTanggal.length; i+=3, k++) {
+        for (int i = 1, k = 0; i < laporanPerTanggal.length; i += 3, k++) {
             for (int j = 0; j < laporanPerTanggal[i].length; j++) {
                 keluarTerbanyak[k][j] = laporanPerTanggal[i][j];
             }
         }
-        for (int i = 0; i < laporanPerTanggal.length; i+=1) {
+        for (int i = 0; i < laporanPerTanggal.length; i += 1) {
             for (int j = 0; j < laporanPerTanggal[i].length; j++) {
                 System.out.println(laporanPerTanggal[i][j]);
             }
@@ -928,102 +923,120 @@ public class cadangan {
         }
         while (laporan) {
             System.out.println(
-                    "--------------------------\n" + "|   MENU LAPORAN BAHAN   |\n" + "--------------------------\n" + " 1. Laporan Bahan\n" + " 2. Laporan Bahan Keluar Terbanyak\n" + " 3. Catatan Bahan Rusak\n" + "--------------------------");
-                    int pilih9 = Pilih();
-                    switch(pilih9) {
-                        case 1:
-                        for (int i = 0, k = 0; i < laporanPerTanggal.length; i++) {
-                            System.out.println("\t");
-                            System.out.println("==========================" + laporanTgl[k] + "==========================");
-                            if (i != 0 && i % 3 == 0) {
-                                k++;
+                    "--------------------------\n" + "|   MENU LAPORAN BAHAN   |\n" + "--------------------------\n"
+                            + " 1. Laporan Bahan\n" + " 2. Laporan Bahan Keluar Terbanyak\n"
+                            + " 3. Catatan Bahan Rusak\n" + "--------------------------");
+            int pilih9 = Pilih();
+            switch (pilih9) {
+                case 1:
+                    for (int i = 0, k = 0; i < laporanPerTanggal.length; i++) {
+                        System.out.println("\t");
+                        System.out.println("==========================" + laporanTgl[k] + "==========================");
+                        if (i != 0 && i % 3 == 0) {
+                            k++;
+                        }
+                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
+                            if (laporanPerTanggal[i][j] != 0.0) {
+                                System.out.println(namaBahan[0][j] + " yang masuk pada tanggal " + laporanTgl[k]
+                                        + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
                             }
-                                for (int j = 0; j < laporanPerTanggal[i].length; j++) {
-                                    if (laporanPerTanggal[i][j] != 0.0) {
-                                        System.out.println(namaBahan[0][j] + " yang masuk pada tanggal " + laporanTgl[k]
-                                                + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
-                                    }
-                                }
-                                i++;
-                                for (int j = 0; j < laporanPerTanggal[i].length; j++) {
-                                    if (laporanPerTanggal[i][j] != 0.0){
-                                        System.out.println(namaBahan[0][j] + " yang keluar pada tanggal " + laporanTgl[k]
-                                                + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
-                                    }
-                                }
-                                i++;
-                                for (int j = 0; j < laporanPerTanggal[i].length; j++) {
-                                    if (laporanPerTanggal[i][j] != 0.0){
-                                        System.out.println(namaBahan[0][j] + " yang rusak pada tanggal " + laporanTgl[k]
-                                                + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
-                                    }
-                                }
-                                System.out.println("\n================================STOCK=================================");
-                                for (int j = 0; j < stokBahan.length; j++) {
-                                    System.out.println("Jumlah " + namaBahan[0][j] + " pada tanggal " + laporanTgl[k] + " " + stokBahan[j] + " " + namaBahan[1][j]);
-                                }
+                        }
+                        i++;
+                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
+                            if (laporanPerTanggal[i][j] != 0.0) {
+                                System.out.println(namaBahan[0][j] + " yang keluar pada tanggal " + laporanTgl[k]
+                                        + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
                             }
-                            break;
+                        }
+                        i++;
+                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
+                            if (laporanPerTanggal[i][j] != 0.0) {
+                                System.out.println(namaBahan[0][j] + " yang rusak pada tanggal " + laporanTgl[k]
+                                        + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
+                            }
+                        }
+                        System.out.println("\n================================STOCK=================================");
+                        for (int j = 0; j < stokBahan.length; j++) {
+                            System.out.println("Jumlah " + namaBahan[0][j] + " pada tanggal " + laporanTgl[k] + " "
+                                    + stokBahan[j] + " " + namaBahan[1][j]);
+                        }
+                    }
+                    break;
 
-                            case 2:
-                            for ( int h = 0; h < laporanTgl.length; h++) {
-                            System.out.println("\t");
-                            System.out.println("==========================" + laporanTgl[h] + "==========================");
-                            if (h != 0 || h % 2 == 0 || h % 2 == 1) {
+                case 2:
+                    for (int h = 0; h < laporanTgl.length; h++) {
+                        System.out.println("\t");
+                        System.out.println("==========================" + laporanTgl[h] + "==========================");
+                        if (h != 0 || h % 2 == 0 || h % 2 == 1) {
                             for (int k = 0; k < keluarTerbanyak[0].length; k++) {
                                 for (int i = 0; i < keluarTerbanyak.length; i++) {
-                                for (int j = 1; j < keluarTerbanyak[0].length; j++){
-                                    if (keluarTerbanyak[i][j] >= keluarTerbanyak[i][j-1]){
-                                        swap1 = keluarTerbanyak[i][j-1];
-                                        keluarTerbanyak[i][j-1] = keluarTerbanyak[i][j];
-                                        keluarTerbanyak[i][j] = swap1;
-            
-                                        swap2 = namaBahan2[0][j-1];
-                                        namaBahan2[0][j-1] = namaBahan2[0][j];
-                                        namaBahan2[0][j] = swap2;
-            
-                                        swap3 = namaBahan2[1][j-1];
-                                        namaBahan2[1][j-1] = namaBahan2[1][j];
-                                        namaBahan2[1][j] = swap3;
+                                    for (int j = 1; j < keluarTerbanyak[0].length; j++) {
+                                        if (keluarTerbanyak[i][j] >= keluarTerbanyak[i][j - 1]) {
+                                            swap1 = keluarTerbanyak[i][j - 1];
+                                            keluarTerbanyak[i][j - 1] = keluarTerbanyak[i][j];
+                                            keluarTerbanyak[i][j] = swap1;
+
+                                            swap2 = namaBahan2[0][j - 1];
+                                            namaBahan2[0][j - 1] = namaBahan2[0][j];
+                                            namaBahan2[0][j] = swap2;
+
+                                            swap3 = namaBahan2[1][j - 1];
+                                            namaBahan2[1][j - 1] = namaBahan2[1][j];
+                                            namaBahan2[1][j] = swap3;
+                                        }
                                     }
                                 }
                             }
-                            }
                             for (int i = 0; i < keluarTerbanyak.length; i++) {
                                 for (int j = 0; j < keluarTerbanyak[i].length; j++) {
-                                    if (namaBahan2[1][j].equalsIgnoreCase("kg") && keluarTerbanyak[i][j] > 0.0){
-                                        System.out.println("Bahan yang keluar terbanyak pada tangggal " + laporanTgl[h] + " adalah " + namaBahan2[0][j] + " sebanyak " +keluarTerbanyak[i][j] + " " + namaBahan2[1][j]);
+                                    if (namaBahan2[1][j].equalsIgnoreCase("kg") && keluarTerbanyak[i][j] > 0.0) {
+                                        System.out.println("Bahan yang keluar terbanyak pada tangggal " + laporanTgl[h]
+                                                + " adalah " + namaBahan2[0][j] + " sebanyak " + keluarTerbanyak[i][j]
+                                                + " " + namaBahan2[1][j]);
                                         break;
                                     }
                                 }
                             }
                             for (int i = 0; i < keluarTerbanyak.length; i++) {
                                 for (int j = 0; j < keluarTerbanyak[i].length; j++) {
-                                    if (namaBahan2[1][j].equalsIgnoreCase("liter") && keluarTerbanyak[i][j] > 0.0){
-                                        System.out.println("Bahan yang keluar terbanyak pada tangggal " + laporanTgl[h] + " adalah " + namaBahan2[0][j] + " sebanyak " +keluarTerbanyak[i][j] + " " + namaBahan2[1][j]);
+                                    if (namaBahan2[1][j].equalsIgnoreCase("liter") && keluarTerbanyak[i][j] > 0.0) {
+                                        System.out.println("Bahan yang keluar terbanyak pada tangggal " + laporanTgl[h]
+                                                + " adalah " + namaBahan2[0][j] + " sebanyak " + keluarTerbanyak[i][j]
+                                                + " " + namaBahan2[1][j]);
                                         break;
                                     }
                                 }
                             }
                             for (int i = 0; i < keluarTerbanyak.length; i++) {
                                 for (int j = 0; j < keluarTerbanyak[i].length; j++) {
-                                    if (namaBahan2[1][j].equalsIgnoreCase("box") && keluarTerbanyak[i][j] > 0.0){
-                                        System.out.println("Bahan yang keluar terbanyak pada tangggal " + laporanTgl[h] + " adalah " + namaBahan2[0][j] + " sebanyak " +keluarTerbanyak[i][j] + " " + namaBahan2[1][j]);
+                                    if (namaBahan2[1][j].equalsIgnoreCase("box") && keluarTerbanyak[i][j] > 0.0) {
+                                        System.out.println("Bahan yang keluar terbanyak pada tangggal " + laporanTgl[h]
+                                                + " adalah " + namaBahan2[0][j] + " sebanyak " + keluarTerbanyak[i][j]
+                                                + " " + namaBahan2[1][j]);
                                         break;
                                     }
                                 }
                             }
                         }
-                        }
-                            break;
-
-                            case 3: 
-                            break;
-
-                            case 4:
-                            laporan = false;
-                            break;
                     }
+                    break;
+
+                case 3:
+                for (int t = 0; t < laporanTgl.length; t++) {
+                    if (laporanTgl[t].isEqual(tanggal1)) {
+                        for (int i = 0; i < penyebab[0].length; i++) {
+                            if (!penyebab[t][i].equals(null)) {
+                                System.out.println("bahan "+namaBahan2[t][i] +" rusak karena: "+penyebab[t][i]);
+                            }
+                        }
+                    }
+                }
+                    break;
+
+                case 4:
+                    laporan = false;
+                    break;
+            }
         }
     }
 }
