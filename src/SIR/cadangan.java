@@ -31,6 +31,16 @@ public class cadangan {
         return p;
     }
 
+    private static boolean cekTanggal(LocalDate[] array, LocalDate date) {
+        for (LocalDate d : array) {
+            if (date.isEqual(d)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
     public static void main(String[] args) {
         String[][] akun = {
                 { "Reza", "Rifda", "Vemas" },
@@ -112,19 +122,20 @@ public class cadangan {
             System.out.println("===================================================\n"
                     + "| Stok bahan awal dimulai pada tanggal 2023-01-01 |\n"
                     + "===================================================");
-            while (tanggals) {
+            
+            while(tanggals){
                 System.out.print("Masukkan Tanggal (format YYYY-MM-DD): ");
                 String tanggalString = sc.next();
                 tanggal1 = LocalDate.parse(tanggalString);
-                if (tanggal1.isAfter(tanggal)) {
+                if (tanggal1.isAfter(tanggal)){
                     tanggals = false;
                     break;
                 } else {
                     System.out.println("Masukkan tanggal setelah tanggal 2023-01-01\n");
                 }
-            }
-            for (int t = 0; t < laporanTgl.length; t++) {
-            if (tanggal2 == null || !tanggal1.isEqual(laporanTgl[t])) {
+                }
+            
+            if (tanggal2 == null || !cekTanggal(laporanTgl, tanggal1)) {
                 double laporanPerTanggal2[][] = new double[laporanPerTanggal.length][laporanPerTanggal[0].length];
                 for (int i = 0; i < laporanPerTanggal.length; i++) {
                     for (int j = 0; j < laporanPerTanggal[i].length; j++) {
@@ -134,7 +145,7 @@ public class cadangan {
 
                 if (tanggal2 == null) {
                     laporanTgl[o] = tanggal1;
-                } else if (!tanggal1.isEqual(laporanTgl[t])) {
+                } else if (!cekTanggal(laporanTgl, tanggal1)) {
                     p += 3;
                     n++;
                     LocalDate laporanTgl2[] = new LocalDate[laporanTgl.length + 1];
@@ -171,8 +182,7 @@ public class cadangan {
 
                 }
             }
-            t++;
-        }
+            
             while (mainMenu) {
 
                 System.out.println("tanggal : " + tanggal1 + "\n==============================\n"
@@ -659,12 +669,11 @@ public class cadangan {
                                                     && laporanPerTanggal[l + 2][j] >= 0.0) {
                                                 stokBahan[j] -= laporanPerTanggal[l + 2][j];
                                                 bahanKeluarSama = true;
-                                                int x = laporanTgl.length;
-                                                System.out
-                                                        .println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
-                                                penyebab[x - 1][j] = sc.nextLine();
-
+                                                
                                                 sc.nextLine();
+                                                System.out.print("Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
+                                                penyebab[t][j] = sc.nextLine();
+
                                                 System.out.print(
                                                         "Kembali ke Menu Data Masuk, Keluar, dan rusak (y/n)? : ");
                                                 String pilihan = sc.nextLine();
@@ -700,12 +709,11 @@ public class cadangan {
                                                     && laporanPerTanggal[l + 2][j] >= 0.0) {
                                                 stokBahan[j] -= laporanPerTanggal[l + 2][j];
                                                 bahanKeluarSama = true;
-                                                int x = laporanTgl.length;
-                                                System.out
-                                                        .println(" Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
-                                                penyebab[x - 1][j] = sc.nextLine();
-
+                                                
                                                 sc.nextLine();
+                                                System.out.print("Masukkan penyebab " + namaBahan[0][j] + " rusak : ");
+                                                penyebab[t][j] = sc.nextLine();
+
                                                 System.out.print(
                                                         "Kembali ke Menu Data Masuk, Keluar, dan Rusak (y/n)? : ");
                                                 String pilihan = sc.nextLine();
@@ -1025,8 +1033,8 @@ public class cadangan {
                 for (int t = 0; t < laporanTgl.length; t++) {
                     if (laporanTgl[t].isEqual(tanggal1)) {
                         for (int i = 0; i < penyebab[0].length; i++) {
-                            if (!penyebab[t][i].equals(null)) {
-                                System.out.println("bahan "+namaBahan2[t][i] +" rusak karena: "+penyebab[t][i]);
+                            if (penyebab[t][i] != null) {
+                                System.out.println("bahan "+namaBahan[0][i] +" rusak karena: "+penyebab[t][i]);
                             }
                         }
                     }
