@@ -937,38 +937,22 @@ public class cadangan {
             int pilih9 = Pilih();
             switch (pilih9) {
                 case 1:
-                    for (int i = 0, k = 0; i < laporanPerTanggal.length; i++) {
-                        System.out.println("\t");
-                        System.out.println("==========================" + laporanTgl[k] + "==========================");
-                        if (i != 0 && i % 3 == 0) {
-                            k++;
-                        }
-                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
-                            if (laporanPerTanggal[i][j] != 0.0) {
-                                System.out.println(namaBahan[0][j] + " yang masuk pada tanggal " + laporanTgl[k]
-                                        + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
+                for (int t = 0; t < laporanTgl.length;t++){
+                    System.out.println("================================================================================" + laporanTgl[t]  + "==============================================================================\n");
+                    System.out.println("============================================================================================================================================================");
+                    System.out.printf("| %-40s | %-25s | %-25s | %-25s | %-25s |\n", "               NAMA BAHAN", "        DATA MASUK", "         DATA KELUAR", "       DATA RUSAK", "         SATUAN");
+                    System.out.println("============================================================================================================================================================");
+                            int l = t * 3;
+                            for (int j = 0; j < namaBahan[0].length; j++) {
+                                System.out.printf("| %-40ss | %-25f | %-25f | %-25f | %-25s |\n", namaBahan[0][j], laporanPerTanggal[l][j], laporanPerTanggal[l+1][j], laporanPerTanggal[l+2][j], namaBahan[1][j] );
                             }
-                        }
-                        i++;
-                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
-                            if (laporanPerTanggal[i][j] != 0.0) {
-                                System.out.println(namaBahan[0][j] + " yang keluar pada tanggal " + laporanTgl[k]
-                                        + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
-                            }
-                        }
-                        i++;
-                        for (int j = 0; j < laporanPerTanggal[i].length; j++) {
-                            if (laporanPerTanggal[i][j] != 0.0) {
-                                System.out.println(namaBahan[0][j] + " yang rusak pada tanggal " + laporanTgl[k]
-                                        + " sebanyak : " + laporanPerTanggal[i][j] + " " + namaBahan[1][j]);
-                            }
-                        }
+                            System.out.println("============================================================================================================================================================\n\n");
+                    }
                         System.out.println("\n================================STOCK=================================");
                         for (int j = 0; j < stokBahan.length; j++) {
-                            System.out.println("Jumlah " + namaBahan[0][j] + " pada tanggal " + laporanTgl[k] + " "
+                            System.out.println("Stock akhir " + namaBahan[0][j] + " sebanyak "
                                     + stokBahan[j] + " " + namaBahan[1][j]);
                         }
-                    }
                     break;
 
                 case 2:
@@ -1048,3 +1032,5 @@ public class cadangan {
         }
     }
 }
+    
+

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "latihan",
+            "request": "launch",
+            "mainClass": "SIR.latihan",
+            "projectName": "Prep-SIR_TI-1G_3b2bb684"
+        },
+        {
+            "type": "java",
             "name": "cadangan",
             "request": "launch",
             "mainClass": "SIR.cadangan",
