@@ -948,6 +948,16 @@ public class cadangan {
                             }
                             System.out.println("============================================================================================================================================================\n\n");
                     }
+                    for (int t = 0; t < laporanTgl.length; t++) {
+                    if (laporanTgl[t].isEqual(tanggal1)) {
+                        for (int i = 0; i < penyebab[0].length; i++) {
+                            if (penyebab[t][i] != null) {
+                                System.out.println("Catatan: ");
+                                System.out.println("bahan "+namaBahan[0][i] +" rusak karena "+penyebab[t][i]);
+                            }
+                        }
+                    }
+                }
                         System.out.println("\n================================STOCK=================================");
                         for (int j = 0; j < stokBahan.length; j++) {
                             System.out.println("Stock akhir " + namaBahan[0][j] + " sebanyak "
@@ -1014,19 +1024,7 @@ public class cadangan {
                     break;
 
                 case 3:
-                for (int t = 0; t < laporanTgl.length; t++) {
-                    if (laporanTgl[t].isEqual(tanggal1)) {
-                        for (int i = 0; i < penyebab[0].length; i++) {
-                            if (penyebab[t][i] != null) {
-                                System.out.println("bahan "+namaBahan[0][i] +" rusak karena: "+penyebab[t][i]);
-                            }
-                        }
-                    }
-                }
-                    break;
-
-                case 4:
-                    laporan = false;
+                laporan = false;
                     break;
             }
         }
