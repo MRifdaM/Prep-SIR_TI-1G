@@ -960,42 +960,35 @@ public class cadangan {
                             + " 3. Catatan Bahan Rusak\n" + "--------------------------");
             int pilih9 = Pilih();
             switch (pilih9) {
-                case 1:
-                    for (int t = 0; t < laporanTgl.length; t++) {
-                        System.out.println(
-                                "================================================================================"
-                                        + laporanTgl[t]
-                                        + "==============================================================================\n");
-                        System.out.println(
-                                "============================================================================================================================================================");
-                        System.out.printf("| %-40s | %-25s | %-25s | %-25s | %-25s |\n", "               NAMA BAHAN",
-                                "        DATA MASUK", "         DATA KELUAR", "       DATA RUSAK", "         SATUAN");
-                        System.out.println(
-                                "============================================================================================================================================================");
-                        int l = t * 3;
-                        for (int j = 0; j < namaBahan[0].length; j++) {
-                            System.out.printf("| %-40ss | %-25f | %-25f | %-25f | %-25s |\n", namaBahan[0][j],
-                                    laporanPerTanggal[l][j], laporanPerTanggal[l + 1][j], laporanPerTanggal[l + 2][j],
-                                    namaBahan[1][j]);
-                        }
-                        System.out.println(
-                                "============================================================================================================================================================\n\n");
+               case 1:
+                for (int t = 0; t < laporanTgl.length;t++){
+                    System.out.println("================================================================================" + laporanTgl[t]  + "==============================================================================\n");
+                    System.out.println("╔"+"═".repeat(42)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╗");
+                    System.out.printf("║ %-40s ║ %-25s ║ %-25s ║ %-25s ║ %-25s ║\n", "               NAMA BAHAN", "        DATA MASUK", "         DATA KELUAR", "       DATA RUSAK", "         SATUAN");
+                    System.out.println("╠"+"═".repeat(42)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╣");
+                    
+                            int l = t * 3;
+                            for (int j = 0; j < namaBahan[0].length; j++) {
+                                System.out.printf("║ %-40s ║ %-25f ║ %-25f ║ %-25f ║ %-25s ║\n", namaBahan[0][j], laporanPerTanggal[l][j], laporanPerTanggal[l+1][j], laporanPerTanggal[l+2][j], namaBahan[1][j] );
+                            }
+                            System.out.println("╚"+"═".repeat(42)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╝");
                     }
                     for (int t = 0; t < laporanTgl.length; t++) {
-                        if (laporanTgl[t].isEqual(tanggal1)) {
-                            for (int i = 0; i < penyebab[0].length; i++) {
-                                if (penyebab[t][i] != null) {
-                                    System.out.println("Catatan: ");
-                                    System.out.println("bahan " + namaBahan[0][i] + " rusak karena " + penyebab[t][i]);
-                                }
+                    if (laporanTgl[t].isEqual(tanggal1)) {
+                        for (int i = 0; i < penyebab[0].length; i++) {
+                            if (penyebab[t][i] != null) {
+                                System.out.println("Catatan: ");
+                                System.out.println("bahan "+namaBahan[0][i] +" rusak karena "+penyebab[t][i]);
                             }
                         }
                     }
-                    System.out.println("\n================================STOCK=================================");
-                    for (int j = 0; j < stokBahan.length; j++) {
-                        System.out.println("Stock akhir " + namaBahan[0][j] + " sebanyak "
-                                + stokBahan[j] + " " + namaBahan[1][j]);
-                    }
+                }
+                        System.out.println("\n================================STOCK=================================");
+                        for (int j = 0; j < stokBahan.length; j++) {
+                            System.out.println("Stock akhir " + namaBahan[0][j] + " sebanyak "
+                                    + stokBahan[j] + " " + namaBahan[1][j]);
+                        }
+                        
                     break;
 
                 case 2:
