@@ -881,7 +881,7 @@ public class cadangan {
                         }
                     }
                     if (k) {
-                        System.out.println("Tidak ada bahan yang masuk");
+                        System.out.println("Tidak ada bahan yang keluar");
                     }
 
                     System.out.println("======================");
@@ -902,7 +902,7 @@ public class cadangan {
                         }
                     }
                     if (r) {
-                        System.out.println("Tidak ada bahan yang masuk");
+                        System.out.println("Tidak ada bahan yang rusak");
                     }
 
                     System.out.println("====================================");
