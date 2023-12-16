@@ -995,15 +995,15 @@ public class cadangan {
             case 1:
                 for (int t = 0; t < laporanTgl.length;t++){
                     System.out.println("==========================================================================================" + laporanTgl[t]  + "============================================================================================\n");
-                    System.out.println("╔"+"═".repeat(42)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╗");
+                    System.out.println("╔"+"═".repeat(42)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╦"+"═".repeat(27)+"╗");
                     System.out.printf("║ %-40s ║ %-25s ║ %-25s ║ %-25s ║ %-25s ║ %-25s ║\n", "               NAMA BAHAN", "        DATA MASUK", "         DATA KELUAR", "       DATA RUSAK", "        STOK AKHIR", "         SATUAN");
-                    System.out.println("╠"+"═".repeat(42)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╣");
+                    System.out.println("╠"+"═".repeat(42)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╬"+"═".repeat(27)+"╣");
                     
                             int l = t * 3;
                             for (int j = 0; j < namaBahan[0].length; j++) {
                                 System.out.printf("║ %-40s ║ %-25.1f ║ %-25.1f ║ %-25.1f ║ %-25.1f ║ %-25s ║\n", namaBahan[0][j], laporanPerTanggal[l][j], laporanPerTanggal[l+1][j], laporanPerTanggal[l+2][j], stokBahan[t][j],namaBahan[1][j] );
                             }
-                            System.out.println("╚"+"═".repeat(42)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╝");
+                            System.out.println("╚"+"═".repeat(42)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╝");
                     }
                     for (int t = 0; t < laporanTgl.length; t++) {
                     if (laporanTgl[t].isEqual(tanggal1)) {
