@@ -215,14 +215,14 @@ public class cadangan {
                         break;
 
                     case 2:
-                        dataMasukKeluarRusak(tanggal1, laporanTgl, stokBahan);
+                        dataMasukKeluarRusak(tanggal1, laporanTgl);
                         break;
 
                     case 3:
                         laporanBahan(laporanTgl, stokBahan, tanggal1);
                         break;
 
-                    case 7:
+                    case 4:
                         mainMenu = false;
                         break;
                 }
@@ -471,7 +471,7 @@ public class cadangan {
         }
     }
 
-    public static void dataMasukKeluarRusak(LocalDate tanggal1, LocalDate laporanTgl[], double stokBahan[][]) {
+    public static void dataMasukKeluarRusak(LocalDate tanggal1, LocalDate laporanTgl[]) {
         boolean dataMKR = true;
         while (dataMKR) {
 
@@ -877,10 +877,10 @@ public class cadangan {
                     break;
 
                 case 5:
-                    System.out.println("====================================");
-                    System.out.println("|            DATA MASUK            |");
-                    System.out.println("====================================");
-                    boolean m = false, k = false, r = false;
+                    System.out.println("================================================");
+                    System.out.println("|                   DATA MASUK                 |");
+                    System.out.println("================================================");
+                    boolean m = true, k = true, r = true;
                     for (int t = 0; t < laporanTgl.length; t++) {
                         if (tanggal1.isEqual(laporanTgl[t])) {
                             int l = t * 3;
@@ -888,8 +888,7 @@ public class cadangan {
                                 if (laporanPerTanggal[l][j] != 0.0) {
                                     System.out.println(
                                             namaBahan[0][j] + " " + laporanPerTanggal[l][j] + " " + namaBahan[1][j]);
-                                } else {
-                                    m = true;
+                                            m = false;
                                 }
                             }
                         }
@@ -898,9 +897,9 @@ public class cadangan {
                         System.out.println("Tidak ada bahan yang masuk");
                     }
 
-                    System.out.println("====================================");
-                    System.out.println("|            DATA KELUAR           |");
-                    System.out.println("====================================");
+                    System.out.println("===============================================");
+                    System.out.println("|                  DATA KELUAR                |");
+                    System.out.println("===============================================");
                     for (int t = 0; t < laporanTgl.length; t++) {
                         if (tanggal1.isEqual(laporanTgl[t])) {
                             int l = t * 3;
@@ -909,9 +908,8 @@ public class cadangan {
                                     System.out.println(
                                             namaBahan[0][j] + " " + laporanPerTanggal[l + 1][j] + " "
                                                     + namaBahan[1][j]);
-                                } else {
-                                    k = true;
-                                }
+                                                    k = false;
+                                } 
                             }
                         }
                     }
@@ -930,9 +928,8 @@ public class cadangan {
                                     System.out.println(
                                             namaBahan[0][j] + " " + laporanPerTanggal[l + 2][j] + " "
                                                     + namaBahan[1][j]);
-                                } else {
-                                    r = true;
-                                }
+                                                    r = false;
+                                } 
                             }
                         }
                     }
@@ -992,7 +989,7 @@ public class cadangan {
             System.out.println(
                     "===============================================\n" + "|              MENU LAPORAN BAHAN             |\n" + "===============================================\n"
                             + " 1. Laporan Bahan\n" + " 2. Laporan Bahan Keluar Terbanyak\n"
-                            + " 3. Catatan Bahan Rusak\n" + "--------------------------");
+                            + " 3. Kembali\n" + "--------------------------");
             int pilih9 = Pilih();
             switch (pilih9) {
             case 1:
