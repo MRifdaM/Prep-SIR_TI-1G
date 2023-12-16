@@ -47,7 +47,7 @@ public class cadangan {
         };
         String[][] inputan = new String[1][2];
         Boolean inventori = true, login = true, mainMenu = true, tanggals = true;
-        int pilih = 0, n = 1, z = 0, o = 0, p = 3;
+        int pilih = 0, n = 1, o = 0, p = 3;
         String username = "";
         LocalDate tanggal1 = null, tanggal = LocalDate.of(2023, 1, 1);
 
@@ -114,6 +114,7 @@ public class cadangan {
                     + "===================================================");
 
                     while (tanggals) {
+                        try {
                             System.out.print("Masukkan Tanggal (format YYYY-MM-DD): ");
                             String tanggalString = sc.next();
                             tanggal1 = LocalDate.parse(tanggalString);
@@ -124,6 +125,10 @@ public class cadangan {
                             } else {
                                 System.out.println("=======Masukkan tanggal setelah tanggal 2023-01-01========\n");
                             }
+                        } catch (Exception e) {
+                            sc.nextLine(); 
+                            System.out.println("Format tanggal salah. Silakan masukkan kembali.\n");
+                        }
                     }
             System.out.println("=================================================================\n\n");
             if (tanggal2 == null || !cekTanggal(laporanTgl, tanggal1)) {
@@ -148,9 +153,7 @@ public class cadangan {
                     for (int i = 0; i < laporanTgl.length; i++) {
                         laporanTgl[i] = laporanTgl2[i];
                     }
-                    for (LocalDate date : laporanTgl) {
-                        System.out.println(date);
-                    }
+                    
                     laporanPerTanggal = new double[p][namaBahan[0].length];
 
                     for (int i = 0; i < laporanPerTanggal2.length; i++) {
@@ -183,12 +186,6 @@ public class cadangan {
                             stokBahan2[i][j] = stokBahan[i-1][j];
                         }
                     }
-                    for (int i = 0; i < stokBahan2.length; i++){
-                        for (int j = 0; j < stokBahan2[i].length; j++) {
-                            System.out.println(stokBahan2[i][j]);
-                        }
-                        System.out.println();
-                    }
 
                     stokBahan = new double[laporanTgl.length][namaBahan[0].length];
                     for (int i = 0; i < stokBahan2.length; i++) {
@@ -196,8 +193,8 @@ public class cadangan {
                             stokBahan[i][j] = stokBahan2[i][j];
                         }
                     }
-                    System.out.println(stokBahan.length);
                 }
+
             }
 
             while (mainMenu) {
@@ -475,16 +472,16 @@ public class cadangan {
         boolean dataMKR = true;
         while (dataMKR) {
 
-            System.out.println("==============================================");
-            System.out.println("|           DATA MASUK DAN KELUAR            |");
-            System.out.println("==============================================");
-            System.out.println(" 1. Masukkan Data Masuk              ");
-            System.out.println(" 2. Masukkan Data Keluar             ");
-            System.err.println(" 3. Masukkan Data Rusak");
-            System.out.println(" 4. Hapus Data ");
-            System.out.println(" 5. Lihat Data Bahan Masuk, Keluar, dan Rusak");
-            System.out.println(" 6. Keluar                           ");
-            System.out.println("==============================================");
+            System.out.println("===============================================");
+            System.out.println("|           DATA MASUK DAN KELUAR             |");
+            System.out.println("===============================================");
+            System.out.println("| 1. Masukkan Data Masuk                      |");
+            System.out.println("| 2. Masukkan Data Keluar                     |");
+            System.err.println("| 3. Masukkan Data Rusak                      |");
+            System.out.println("| 4. Hapus Data                               |");
+            System.out.println("| 5. Lihat Data Bahan Masuk, Keluar, dan Rusak|");
+            System.out.println("| 6. Keluar                                   |");
+            System.out.println("===============================================");
             int pilih4 = Pilih();
             switch (pilih4) {
                 case 1:
@@ -594,7 +591,6 @@ public class cadangan {
                                 for (int j = 0; j < namaBahan[0].length; j++) {
                                     if (a.equalsIgnoreCase(namaBahan[0][j])) {
                                         if (laporanPerTanggal[l + 1][j] == 0.0) {
-                                            System.out.println(stokBahan.length);
                                             System.out.print("Masukkan jumlah " + namaBahan[0][j] + " yang keluar : ");
                                             laporanPerTanggal[l + 1][j] = sc.nextDouble();
                                             if (laporanPerTanggal[l + 1][j] <= stokBahan[t][j]
