@@ -407,8 +407,10 @@ public class cadangan {
                                     g++;
                                 }
                             }
+                        }
                             int h = 0;
                             for (int a = 0; a < laporanPerTanggal.length; a++) {
+                                h = 0;
                                 for (int b = 0; b < laporanPerTanggal[a].length; b++) {
                                     if (b != hapusIndex) {
                                         if (h < laporanHapus[0].length) {
@@ -420,17 +422,19 @@ public class cadangan {
                             }
                             int v = 0;
                             for (int a = 0; a < stokBahan.length; a++) {
+                                    v = 0;
                                 for (int b = 0; b < stokBahan[a].length; b++) {
                                     if (b != hapusIndex) {
                                         if (v < stokBahanHapus[0].length) {
                                             stokBahanHapus[a][v] = stokBahan[a][b];
                                             v++;
-                                        }
                                     }
                                 }
                             }
+                            }
                             int d = 0;
                             for (int a = 0; a < penyebab.length; a++) {
+                                d = 0;
                                 for (int b = 0; b < penyebab[a].length; b++) {
                                     if (b != hapusIndex) {
                                         if (d < penyebabHapus[0].length) {
@@ -440,8 +444,8 @@ public class cadangan {
                                     }
                                 }
                             }
-                        }
                     }
+                    
                     laporanPerTanggal = laporanHapus;
                     namaBahan = namaBahanHapus;
                     stokBahan = stokBahanHapus;
@@ -976,7 +980,7 @@ public class cadangan {
             System.out.println(
                     "===============================================\n" + "|              MENU LAPORAN BAHAN             |\n" + "===============================================\n"
                             + " 1. Laporan Bahan\n" + " 2. Laporan Bahan Keluar Terbanyak\n"
-                            + " 3. Kembali\n" + "--------------------------");
+                            + " 3. Kembali\n" + "===============================================");
             int pilih9 = Pilih();
             switch (pilih9) {
             case 1:
@@ -991,17 +995,15 @@ public class cadangan {
                                 System.out.printf("║ %-40s ║ %-25.1f ║ %-25.1f ║ %-25.1f ║ %-25.1f ║ %-25s ║\n", namaBahan[0][j], laporanPerTanggal[l][j], laporanPerTanggal[l+1][j], laporanPerTanggal[l+2][j], stokBahan[t][j],namaBahan[1][j] );
                             }
                             System.out.println("╚"+"═".repeat(42)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╩"+"═".repeat(27)+"╝");
-                    }
-                    for (int t = 0; t < laporanTgl.length; t++) {
-                    if (laporanTgl[t].isEqual(tanggal1)) {
-                        for (int i = 0; i < penyebab[0].length; i++) {
-                            if (penyebab[t][i] != null) {
-                                System.out.println("Catatan: ");
-                                System.out.println("bahan "+namaBahan[0][i] +" rusak karena "+penyebab[t][i]);
+
+                            
+                            for (int i = 0; i < penyebab[0].length; i++) {
+                                if (penyebab[t][i] != null) {
+                                    System.out.println("\n\nCatatan: ");
+                                    System.out.println("bahan "+namaBahan[0][i] +" rusak karena "+penyebab[t][i]);
+                                }
                             }
-                        }
                     }
-                }
                         
                     break;
 
