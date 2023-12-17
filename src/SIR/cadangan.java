@@ -960,11 +960,7 @@ public class cadangan {
         String namaBahan2[][] = new String[namaBahan.length][namaBahan[1].length];
         double swap1 = 0.0;
         String swap2 = " ", swap3 = " ";
-        for (int i = 0; i < penyebab.length; i++) {
-            for (int j = 0; j < penyebab[0].length; j++) {
-                System.out.println(penyebab[i][j]);
-            }
-        }
+        
         for (int i = 0, k = 0; i < namaBahan.length; i++, k++) {
             for (int j = 0; j < namaBahan[i].length; j++) {
                 namaBahan2[k][j] = namaBahan[i][j];
@@ -975,12 +971,7 @@ public class cadangan {
                 keluarTerbanyak[k][j] = laporanPerTanggal[i][j];
             }
         }
-        for (int i = 0; i < laporanPerTanggal.length; i += 1) {
-            for (int j = 0; j < laporanPerTanggal[i].length; j++) {
-                System.out.println(laporanPerTanggal[i][j]);
-            }
-            System.out.println();  
-        }
+        
         while (laporan) {
             System.out.println(
                     "===============================================\n" + "|              MENU LAPORAN BAHAN             |\n" + "===============================================\n"
