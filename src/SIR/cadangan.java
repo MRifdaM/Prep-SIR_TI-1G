@@ -457,10 +457,16 @@ public class cadangan {
                     for (int i = 0; i < laporanTgl.length; i++) {
                         if (tanggal1.isEqual(laporanTgl[i])) {
                         for (int j = 0; j < stokBahan[i].length; j++) {
-                            System.out.printf("Stok terkini %s: %.1f %s\n", namaBahan[0][j], stokBahan[i][j],
+                            System.out.printf("Stok pada tanggal %s: %s %.1f %s\n", laporanTgl[i],namaBahan[0][j], stokBahan[i][j],
                                     namaBahan[1][j]);
                         }
                     }
+                    System.out.println("\n========================================================");
+                    }
+                    for (int i = laporanTgl.length-1; i < laporanTgl.length; i++){
+                        for (int j = 0; j < stokBahan[i].length; j++){
+                            System.out.printf("Stok terkini %s: %.1f %s\n", namaBahan[0][j],stokBahan[i][j],namaBahan[1][j]);
+                        }
                     }
                     break;
 
